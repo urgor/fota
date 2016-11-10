@@ -39,7 +39,7 @@ class ScanController extends Controller {
 		if (is_null($root)) {
 			$root = new \app\models\Folders;
 			$root->name = Yii::$app->params['rootFolderName'];
-			$root->save();
+			$root->makeRoot();
 		}
 		$this->scanDir('', $root);
 		$rmFiles = \app\models\Files::findAll(['processed' => 0]);
