@@ -11,4 +11,4 @@ phpunit.phar
 /phpunit.xml
 
 /config/local.php
-web/images/thumbs
+#web/images/thumbs
