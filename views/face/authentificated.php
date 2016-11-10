@@ -1,0 +1,1 @@
+Мы знаем тебя, <?= Yii::$app->user->getIdentity()->getUsername() ?><div class="center"><input type="button" value="" id="button_logout" class="ajax_button" href="/authentificate/logout" title="Logout"/></div>

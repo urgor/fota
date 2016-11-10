@@ -1,0 +1,14 @@
+div#fotaAlbum {
+	background-color: #eee;
+	text-align: center;
+	width: auto;
+	height: auto;
+}
+div#fotaAlbum img {
+	margin: 10px 0 10px 0;
+}
+div#fotaAlbum .albumInfo {
+	/*display: inline-block;*/
+	font-size: 11px;
+	text-align: right;
+}
