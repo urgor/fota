@@ -99,7 +99,7 @@ class ScanController extends Controller {
 				$mdPath = md5($dir . DIRECTORY_SEPARATOR . $entry);
 				$mdContent = md5(file_get_contents($path));
 				$ext = pathinfo($entry, PATHINFO_EXTENSION);
-				if (!in_array(strtolower($ext), ['jpg', 'tiff', 'tif'])) continue;
+				if (!in_array(strtolower($ext), ['jpg', 'tiff', 'tif', 'png'])) continue;
 				$findPath = \app\models\Files::findOne(['md_path' => $mdPath]);
 				$findContent = \app\models\Files::findOne(['md_content' => $mdContent]);
 				if (is_null($findPath)) {
