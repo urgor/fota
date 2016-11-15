@@ -1,6 +1,6 @@
 xhrData = {};
 
-$(document).ready(function() {
+window.onload=function() {
 	// layouts bind
 	var proto = new layoutProto();
 	vListLayout.prototype = proto;
@@ -69,7 +69,7 @@ $(document).ready(function() {
 	kbd.init();
 	information.init();
 	pockets.init(LS.settings.pocketVisible);
-});
+};
 ////////////////////////////////////////////////////////////////////////////////
 //									END ONREADY
 

@@ -32,7 +32,7 @@ class FolderController extends Controller {
         $parent = Folders::findOne(['folder_id' => $folderId]);
 		if (is_null($parent)) throw new \Exception("Folder not found", 1);
 
-		foreach ($parent->children(1)->all() as $children) { // ['order' => 'name']
+		foreach ($parent->children(1)->orderBy('name')->all() as $children) {
 			$data[] = [
 				'id' => $children->folder_id,
 				'name' => $children->name,
@@ -45,7 +45,7 @@ class FolderController extends Controller {
 
     private function getFiles($folderId) {
         $data = [];
-        foreach (Files::findAll(['folder_id' => $folderId]) as $file) {
+        foreach (Files::find()->where(['folder_id' => $folderId])->orderBy('original_name')->all() as $file) {
 			$info = [];
 			foreach (FileInfo::findAll(['file_id' => $file->file_id]) as $infoBit) {
 				$info[$infoBit['key']] = $infoBit['value'];

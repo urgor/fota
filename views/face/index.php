@@ -15,7 +15,7 @@ AppAsset::register($this);
 	<link rel="stylesheet" type="text/css" href="http://<?= Yii::$app->params['baseUrl']; ?>/css/ie.css" media="screen, projection" />
 	<![endif]-->
 	<link rel="stylesheet" type="text/css" href="http://<?= Yii::$app->params['baseUrl'] ?>/css/main.css" />
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://<?= Yii::$app->params['baseUrl']; ?>/js/main.js"></script>
 
 	<script type="text/javascript">
