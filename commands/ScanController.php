@@ -35,7 +35,7 @@ class ScanController extends Controller {
 			elseif (!is_dir($path)) die('You shuld clean up ' . Yii::$app->params['thumbRealPath'] . ' directory first.' . PHP_EOL);
 		}
 		\app\models\Files::updateAll(['processed' => 0], []);
-		$root = \app\models\Folders::findOne(['level' => 1]);
+		$root = \app\models\Folders::findOne(['level' => 0]);
 		if (is_null($root)) {
 			$root = new \app\models\Folders;
 			$root->name = Yii::$app->params['rootFolderName'];
@@ -70,11 +70,12 @@ class ScanController extends Controller {
 	}
 
 	/**
-	 *
-	 * @param str $dir
-	 * @param \FolderModel $parentFolder
+	 * [scanDir description]
+	 * @param  str $dir          [description]
+	 * @param  \app\models\Folders $parentFolder [description]
+	 * @return [type]                           [description]
 	 */
-	private function scanDir($dir, $parentFolder) {
+	private function scanDir($dir, \app\models\Folders $parentFolder) {
 		$d = dir(Yii::$app->params['sourceFolderPath'] . $dir);
 		while ($entry = $d->read()) {
 			$firstSymbol = mb_substr($entry, 0, 1);
@@ -84,10 +85,10 @@ class ScanController extends Controller {
 			$path = Yii::$app->params['sourceFolderPath'] . $dir . DIRECTORY_SEPARATOR . $entry;
 			if (is_dir($path)) {
 				echo "Folder $path\n";
-				$folder=false;
-				foreach($parentFolder->children(1)->all() as $child) {
-					if ($child->name === $entry)
-						$folder = $child;
+				$folder = false;
+				foreach($parentFolder->children(1)->all() as $child) if ($child->name === $entry)
+					$folder = $child;
+					break;
 				}
 				if (!$folder) {
 					$folder = new \app\models\Folders;
