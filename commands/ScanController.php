@@ -86,7 +86,7 @@ class ScanController extends Controller {
 			if (is_dir($path)) {
 				echo "Folder $path\n";
 				$folder = false;
-				foreach($parentFolder->children(1)->all() as $child) if ($child->name === $entry)
+				foreach($parentFolder->children(1)->all() as $child) if ($child->name === $entry) {
 					$folder = $child;
 					break;
 				}
