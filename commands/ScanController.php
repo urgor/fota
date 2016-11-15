@@ -77,6 +77,7 @@ class ScanController extends Controller {
 	 */
 	private function scanDir($dir, \app\models\Folders $parentFolder) {
 		$d = dir(Yii::$app->params['sourceFolderPath'] . $dir);
+		$entitiesHere = 0;
 		while ($entry = $d->read()) {
 			$firstSymbol = mb_substr($entry, 0, 1);
 			if (
@@ -85,6 +86,7 @@ class ScanController extends Controller {
 			$path = Yii::$app->params['sourceFolderPath'] . $dir . DIRECTORY_SEPARATOR . $entry;
 			if (is_dir($path)) {
 				echo "Folder $path\n";
+				$entitiesHere++;
 				$folder = false;
 				foreach($parentFolder->children(1)->all() as $child) if ($child->name === $entry) {
 					$folder = $child;
@@ -95,8 +97,12 @@ class ScanController extends Controller {
 					$folder->name = $entry;
 					$folder->appendTo($parentFolder);
 				}
-				$this->scanDir($dir . DIRECTORY_SEPARATOR . $entry, $folder);
+				if(0 == $this->scanDir($dir . DIRECTORY_SEPARATOR . $entry, $folder)) {
+					$folder->delete();
+					echo "Folder $entry deleted\n";
+				}
 			} elseif (is_file($path)) {
+				$entitiesHere++;
 				$mdPath = md5($dir . DIRECTORY_SEPARATOR . $entry);
 				$mdContent = md5(file_get_contents($path));
 				$ext = pathinfo($entry, PATHINFO_EXTENSION);
@@ -155,6 +161,7 @@ class ScanController extends Controller {
 			}
 		}
 		$d->close();
+		return $entitiesHere;
 	}
 
 	private static function makeThumbPath($name) {
