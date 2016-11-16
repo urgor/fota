@@ -105,15 +105,19 @@ class ScanController extends Controller {
 			} elseif (is_file($path)) {
 				$entitiesHere++;
 				$mdPath = md5($dir . DIRECTORY_SEPARATOR . $entry);
-				// $mdContent = md5(file_get_contents($path));
-				exec('md5sum ' . preg_replace('/(["\' ])/', '\\\$1', $path) . ' --binary', $output, $returnVar);
+
+				// $oldMdContent = md5(file_get_contents($path));
+				$output = [];
+				$returnVar = 0;
+				exec('md5sum --binary ' . preg_replace('/(["\' \(\)])/', '\\\$1', $path), $output, $returnVar);
 				if (0 != $returnVar) throw new \Exception('Error calculating md5 sum', 1);
 				$mdContent = substr($output[0], 0, 32);
 
 				$ext = pathinfo($entry, PATHINFO_EXTENSION);
 				if (!in_array(strtolower($ext), ['jpg', 'tiff', 'tif', 'png'])) continue;
-				$findPath = \app\models\Files::findOne(['md_path' => $mdPath]);
-				$findContent = \app\models\Files::findOne(['md_content' => $mdContent]);
+				$findPath = \app\models\Files::find()->where(['md_path' => $mdPath])->one();
+				$findContent = \app\models\Files::find()->where(['md_content' => $mdContent])->one();
+
 				if (is_null($findPath)) {
 					if (is_null($findContent)) {
 						// simply new file
@@ -140,7 +144,7 @@ class ScanController extends Controller {
 						$findContent->folder_id = $parentFolder->getAttribute('folder_id');
 						$findContent->md_path = $mdPath;
 						$findContent->processed = 1;
-						$findContent->save();
+						$l = $findContent->save();
 						// if ($this->params['update_info']['val']) $this->fillInfo($findContent->file_id, $path); // option update_info
 						echo "File $entry Moved\n";
 					}
@@ -165,7 +169,6 @@ class ScanController extends Controller {
 
 			}
 		}
-		unset($entry);
 		$d->close();
 		return $entitiesHere;
 	}
