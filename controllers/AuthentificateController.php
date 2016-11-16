@@ -12,7 +12,7 @@ class AuthentificateController extends Controller {
 	public function actionLogout() {
 		Yii::$app->user->logout();
 		$resp = [
-			'msg' => $this->renderPartial('../face/anonymous')
+			'msg' => $this->renderPartial('anonymous')
 		];
 		return $resp;
 	}
@@ -26,7 +26,7 @@ class AuthentificateController extends Controller {
 		if ($model->check(Yii::$app->request->post('password')) ) {
 			error_log('do login');
 			\Yii::$app->user->login($model);
-			$resp['msg'] = $this->renderPartial('../face/authentificated');
+			$resp['msg'] = $this->renderPartial('authentificated');
 		} else {
 			$resp = [
 				'error' => true,

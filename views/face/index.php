@@ -62,7 +62,7 @@ AppAsset::register($this);
 	</div>
 	<div id="userInfo" style="display: none">
 		<h5>Авторизация</h5>
-		<?php $this->beginContent('@app/views/face/'.(Yii::$app->user->isGuest ? 'anonymous' : 'authentificated').'.php'); $this->endContent(); ?>
+		<?php $this->beginContent('@app/views/authentificate/'.(Yii::$app->user->isGuest ? 'anonymous' : 'authentificated').'.php'); $this->endContent(); ?>
 	</div>
 	<div id="albumTree" style="display: none">
 		<h5>Альбомы</h5>
