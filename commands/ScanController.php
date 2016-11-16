@@ -101,10 +101,15 @@ class ScanController extends Controller {
 					$folder->delete();
 					echo "Folder $entry deleted\n";
 				}
+				unset($folder);
 			} elseif (is_file($path)) {
 				$entitiesHere++;
 				$mdPath = md5($dir . DIRECTORY_SEPARATOR . $entry);
-				$mdContent = md5(file_get_contents($path));
+				// $mdContent = md5(file_get_contents($path));
+				exec('md5sum ' . preg_replace('/(["\' ])/', '\\\$1', $path) . ' --binary', $output, $returnVar);
+				if (0 != $returnVar) throw new \Exception('Error calculating md5 sum', 1);
+				$mdContent = substr($output[0], 0, 32);
+
 				$ext = pathinfo($entry, PATHINFO_EXTENSION);
 				if (!in_array(strtolower($ext), ['jpg', 'tiff', 'tif', 'png'])) continue;
 				$findPath = \app\models\Files::findOne(['md_path' => $mdPath]);
@@ -160,6 +165,7 @@ class ScanController extends Controller {
 
 			}
 		}
+		unset($entry);
 		$d->close();
 		return $entitiesHere;
 	}
