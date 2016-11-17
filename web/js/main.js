@@ -789,7 +789,12 @@ function tileLayout() {
 	this.clickHandler = function(event, obj) {
 		$('#layoutSelect input[value=single]').trigger('click');
 		layout.jumpToImage($(obj).attr('data-index_number'));
-	}
+	},
+	this.resizeElemets = function(item, img, fileInfo) {
+		var h=300, w=300;
+		img.css('max-height', h + 'px');
+		img.css('max-width', w + 'px');
+	};
 }
 
 ////////////////////////////////////////////////////////////////////////////////

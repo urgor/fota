@@ -54,7 +54,7 @@ AppAsset::register($this);
 			<div class="boxButton" style="background: url('/images/sprite.png') -20px -80px;" title="Horizontal list"></div></input>
 		</label>
 		<label><input class="noBullet" type="radio" name="layout" value="tile">
-			<div class="boxButton" style="background: url('/images/sprite.png') -60px -80px;" title="Horizontal list"></div></input>
+			<div class="boxButton" style="background: url('/images/sprite.png') -60px -80px;" title="Tile"></div></input>
 		</label>
 		<label><input class="noBullet" type="radio" name="layout" value="single">
 			<div class="boxButton" style="background: url('/images/sprite.png') -40px -80px;" title="Single image"></div></input>
