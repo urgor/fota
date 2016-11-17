@@ -96,7 +96,7 @@ class DownloadController extends Controller {
 		}
 
 		header('Content-Description: File Transfer');
-		header('Content-Disposition: attachment; filename='.$this->filename . $ext);
+		header('Content-Disposition: attachment; filename="'.$this->filename . $ext . '"');
 		header('Content-Type: application/x-tar');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate');
