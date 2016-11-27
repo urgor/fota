@@ -17,6 +17,10 @@ AppAsset::register($this);
 	<link rel="stylesheet" type="text/css" href="http://<?= Yii::$app->params['baseUrl'] ?>/css/main.css" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="http://<?= Yii::$app->params['baseUrl']; ?>/js/main.js"></script>
+	<script type="text/javascript" src="http://<?= Yii::$app->params['baseUrl']; ?>/js/tab.js"></script>
+	<script type="text/javascript" src="http://<?= Yii::$app->params['baseUrl']; ?>/js/layout.js"></script>
+	<script type="text/javascript" src="http://<?= Yii::$app->params['baseUrl']; ?>/js/functions.js"></script>
+	<script type="text/javascript" src="http://<?= Yii::$app->params['baseUrl']; ?>/js/other.js"></script>
 
 	<script type="text/javascript">
 	config = {
