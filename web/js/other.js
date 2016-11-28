@@ -99,6 +99,7 @@ popups = {
 			case 'ppfDsAl': popups.deselectAll(1); break;
 			case 'ppfGlDl': popups.downloadFolder(); break;
 			case 'ppfDlLn': popups.showFolderDownloadLink(); break;
+			case 'ppfAcsLn': popups.showFolderAccessLink(); break;
 		}
 	},
 	shortCodeRise: function() {
@@ -209,6 +210,18 @@ popups = {
 	showFolderDownloadLink: function() {
 		this.close();
 		alert('http://'+config.baseUrl+'/download/folder/'+folderTab.folderId);
+	},
+	showFolderAccessLink: function() {
+		this.close();
+		$.ajax({
+			type: 'GET',
+			url: '/folder/accessLink/' + folderTab.folderId,
+			cache: false
+		})
+		.done(function(response) {
+			alert('http://' + config.baseUrl + '/#folder=' + response.data);
+		})
+		.fail(function(jqXHR, textStatus) {alert("Request failed: " + textStatus);});
 	}
 }
 

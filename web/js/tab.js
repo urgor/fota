@@ -1,18 +1,28 @@
 tabButton = {
 	currentId: false,
 	init: function() {
-		var r = /^#album=(\d+).*$/;
+		var defaultTabName = 'button_albums';
+
+		var r = /^#(album|folder)=(.+)$/;
 		if (r.test(window.location.hash)) {
 			res = r.exec(window.location.hash)
-			Observer.subscribe('albumsTabInited', function(){
-				var id = '#albumList #'+res[1];
-				albumTreeTab.clickHandler('', $('.albumFolder[data-id="'+res[1]+'"]').get());
-			});
+			if (res[1] == 'album') {
+				Observer.subscribe('albumsTabInited', function(){
+					var id = '#albumList #'+res[2];
+					albumTreeTab.clickHandler('', $('.albumFolder[data-id="'+res[2]+'"]').get());
+				});
+			} else if (res[1] == 'folder') {
+				defaultTabName = 'button_tree';
+				Observer.subscribe('foldersTabInited', function(){
+					folderTab.accessHash = res[2];
+					folderTab.clickEvent({}, $(folderTab.rootFolder).find('div.name'));
+				});
+			}
 		}
 
 		// переключение табов
 		$('#toolbarBlock > div').on('click', function(event) {tabButton.clickEvent(event, this);});
-		this.clickEvent({}, $('#toolbarBlock > div.button_albums').get()); // show this tab by default
+		this.clickEvent({}, $('#toolbarBlock > div.' + defaultTabName).get()); // show this tab by default
 
 		albumTreeTab.init();
 		folderTab.init();
@@ -32,18 +42,20 @@ tabButton = {
 
 folderTab = {
 	folderId: null,
+	rootFolder: null,
+	accessHash: null,
 	init: function() {
 		var root = $('<ul class="container"></ul>').appendTo('#folderTree');
-		folder = $('#prototypes li.node').clone().attr('id', config.rootId).addClass('root');
-		folder.find('.name').html(config.rootName);
-		folder.find('.icon').addClass('closed');
-		folder.appendTo(root);
+		this.rootFolder = $('#prototypes li.node').clone().attr('id', config.rootId).addClass('root');
+		this.rootFolder.find('.name').html(config.rootName);
+		this.rootFolder.find('.icon').addClass('closed');
+		this.rootFolder.appendTo(root);
+		Observer.notify('foldersTabInited');
 		// $('#folderTree #'+config.rootId+' .name').trigger('click');
 	},
 	load: function(folderId) {
-		$.ajax({
+		var req = {
 			url: 'http://' + config.baseUrl + '/folder/' + folderId,
-			// data: {folderId: folderId},
 			success: function(data, textStatus, jqXHR) {
 				if (data.error) { alert(data.msg); return false; }
 				xhrData = data;
@@ -62,7 +74,9 @@ folderTab = {
 				layout.redrawMain();
 			},
 			dataType: 'json' //  Default: Intelligent Guess (xml, json, script, or html).
-		});
+		}
+		if (this.accessHash) req.data = {accessHash: this.accessHash},
+		$.ajax(req);
 	},
 	clickEvent: function(event, element) {
 		var folder = $(element).parent();

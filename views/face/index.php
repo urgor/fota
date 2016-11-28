@@ -142,8 +142,9 @@ AppAsset::register($this);
 <div id="folderPopupMenu" class="popupMenu"><ul>
 	<li id="ppfSlAl">Все в 1й карман</li>
 	<li id="ppfDsAl">Удалить из 1го кармана</li>
-	<li id="ppfGlDl">Скачать</li>
+	<li id="ppfGlDl" class="topMargin">Скачать</li>
 	<li id="ppfDlLn">Ссылка для скачивания</li>
+	<li id="ppfAcsLn">Ссылка для доступа</li>
 
 </ul></div>
 <?php $this->endBody() ?>

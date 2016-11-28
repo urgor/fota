@@ -61,6 +61,7 @@ $config = [
 					'' => 'face/index',
 					'face' => 'face/index',
 					'folder/<id:\d+>' => 'folder/index',
+					'folder/accessLink/<id:\d+>' => 'folder/access-link',
 					'authentificate/login' => 'authentificate/login',
 					'authentificate/logout' => 'authentificate/logout',
 					'album/create' => 'album/create',
