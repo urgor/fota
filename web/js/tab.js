@@ -14,6 +14,7 @@ tabButton = {
 			} else if (res[1] == 'folder') {
 				defaultTabName = 'button_tree';
 				Observer.subscribe('foldersTabInited', function(){
+					console.log('folder tab inited observe');
 					folderTab.accessHash = res[2];
 					folderTab.clickEvent({}, $(folderTab.rootFolder).find('div.name'));
 				});
@@ -53,45 +54,58 @@ folderTab = {
 		Observer.notify('foldersTabInited');
 		// $('#folderTree #'+config.rootId+' .name').trigger('click');
 	},
-	load: function(folderId) {
+	load: function() {
 		$.ajax({
-			url: 'http://' + config.baseUrl + '/folder/' + folderId,
+			url: 'http://' + config.baseUrl + '/folder/' + this.folderId,
 			data: this.accessHash ? {accessHash: this.accessHash} : null,
-			success: function(data, textStatus, jqXHR) {
-				if (data.error) { alert(data.msg); return false; }
-				xhrData = data;
-				$('#' + folderId + ' > .name').addClass('selected');
-				folder = $('#prototypes li.node');
-				var last;
-				for (var i in data.folders) {
-					sub = folder.clone();
-					sub.attr('id', data.folders[i].id);
-					sub.find('.name').html(data.folders[i].name);
-					sub.find('.icon').addClass(data.folders[i].leaf ? 'leaf' : 'closed');
-
-					last = sub.appendTo('#folderTree li#' + folderId + ' > ul.container');
-				}
-				$(last).addClass('last');
-				layout.redrawMain();
+			success: function(data) {
+				folderTab.render(data);
 			},
 			dataType: 'json' //  Default: Intelligent Guess (xml, json, script, or html).
 		});
 	},
+	render: function(data) {
+		if (data.error) { alert(data.msg); return false; }
+		xhrData = data;
+		$('#' + folderTab.folderId + ' > .name').addClass('selected');
+		folder = $('#prototypes li.node');
+		var last;
+		for (var i in data.folders) {
+			sub = folder.clone();
+			sub.attr('id', data.folders[i].id);
+			sub.find('.name').html(data.folders[i].name);
+			sub.find('.icon').addClass(data.folders[i].leaf ? 'leaf' : 'closed');
+
+			last = sub.appendTo('#folderTree li#' + folderTab.folderId + ' > ul.container');
+		}
+		$(last).addClass('last');
+		layout.redrawMain();
+		// This is for rendering sub folders and files
+		if (1 == Object.keys(data.folders).length && (data.folders[0].folders || data.folders[0].files)) {
+			folderTab.openFolder(sub.find('.name'));
+			folderTab.render(data.folders[0]);
+		}
+	},
 	clickEvent: function(event, element) {
+		$open = this.openFolder(element);
+		if ($open) this.load(this);
+	},
+	openFolder(element) {
 		var folder = $(element).parent();
 		this.folderId = folder.attr('id');
 		var icon = $(element).siblings('.icon');
 		$('#folderTree .selected').removeClass('selected');
 		if (icon.hasClass('closed')) {
-			icon.removeClass('closed')
-			icon.addClass('opened')
-			this.load(folder.attr('id'));
+			icon.removeClass('closed');
+			icon.addClass('opened');
+			return true;
 		} else if (icon.hasClass('opened')) { ///
 			icon.removeClass('opened');
 			icon.addClass('closed');
 			folder.find('.container').html('');
+			return false;
 		} else {
-			this.load(folder.attr('id'));
+			return true;
 		}
 	},
 	mouseOver: function(event, element) {

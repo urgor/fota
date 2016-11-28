@@ -28,7 +28,10 @@ class FolderController extends Controller {
 				if (empty($accessHash)) throw new \Exception("Need login", 1);
 
 				elseif ($parent->isRoot()) {
-					$data['folders'] = [self::mapFields($this->getFolderByAccesHash($accessHash))];
+					$folder = $this->getFolderByAccesHash($accessHash);
+					$data['folders'] = [self::mapFields($folder)];
+					$data['folders'][0]['folders'] = $this->getSubFolders($folder);
+					$data['folders'][0]['files'] = $this->getFiles($folder->folder_id);
 
 				} elseif ($this->checkAccessByHash($parent, $accessHash)) {
 					$data['folders'] = $this->getSubFolders($parent);

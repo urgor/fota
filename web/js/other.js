@@ -62,6 +62,9 @@ Observer = {
 	subscribe: function(event, func) {
 		if (undefined === this.events[event]) this.events[event] = [];
 		this.events[event].push(func);
+	},
+	unsubscribe(event) {
+		if (undefined === this.events[event]) delete this.events[event];
 	}
 }
 

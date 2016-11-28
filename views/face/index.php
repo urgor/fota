@@ -140,8 +140,8 @@ AppAsset::register($this);
 	<li id="ppGlDc">Удалить из альбома</li>
 </ul></div>
 <div id="folderPopupMenu" class="popupMenu"><ul>
-	<li id="ppfSlAl">Все в 1й карман</li>
-	<li id="ppfDsAl">Удалить из 1го кармана</li>
+	<li id="ppfSlAl">Поместить все в карман #1</li>
+	<li id="ppfDsAl">Очистить карман #1</li>
 	<li id="ppfGlDl" class="topMargin">Скачать</li>
 	<li id="ppfDlLn">Ссылка для скачивания</li>
 	<li id="ppfAcsLn">Ссылка для доступа</li>
