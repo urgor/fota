@@ -54,8 +54,9 @@ folderTab = {
 		// $('#folderTree #'+config.rootId+' .name').trigger('click');
 	},
 	load: function(folderId) {
-		var req = {
+		$.ajax({
 			url: 'http://' + config.baseUrl + '/folder/' + folderId,
+			data: this.accessHash ? {accessHash: this.accessHash} : null,
 			success: function(data, textStatus, jqXHR) {
 				if (data.error) { alert(data.msg); return false; }
 				xhrData = data;
@@ -74,9 +75,7 @@ folderTab = {
 				layout.redrawMain();
 			},
 			dataType: 'json' //  Default: Intelligent Guess (xml, json, script, or html).
-		}
-		if (this.accessHash) req.data = {accessHash: this.accessHash},
-		$.ajax(req);
+		});
 	},
 	clickEvent: function(event, element) {
 		var folder = $(element).parent();
