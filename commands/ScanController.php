@@ -109,7 +109,7 @@ class ScanController extends Controller {
 				// $oldMdContent = md5(file_get_contents($path));
 				$output = [];
 				$returnVar = 0;
-				exec('md5sum --binary ' . preg_replace('/(["\' \(\)])/', '\\\$1', $path), $output, $returnVar);
+				exec('md5sum --binary ' . preg_replace('/(["\' \(\);])/', '\\\$1', $path), $output, $returnVar);
 				if (0 != $returnVar) throw new \Exception('Error calculating md5 sum', 1);
 				$mdContent = substr($output[0], 0, 32);
 
