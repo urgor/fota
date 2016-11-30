@@ -14,7 +14,6 @@ tabButton = {
 			} else if (res[1] == 'folder') {
 				defaultTabName = 'button_tree';
 				Observer.subscribe('foldersTabInited', function(){
-					console.log('folder tab inited observe');
 					folderTab.accessHash = res[2];
 					folderTab.clickEvent({}, $(folderTab.rootFolder).find('div.name'));
 				});
@@ -188,4 +187,18 @@ albumTreeTab = {
 		// if ($(element).prop('id') === this.selectedAlbum) return false;
 		$(element).find('.albumMenuButton').css('visibility', 'hidden');
 	}
-}
+};
+
+navigation = {
+	hiddable: true,
+	show: function() {
+		if(!navigation.hiddable) return;
+		$('#navigation').show();
+		$('#navigationGhost').hide();
+	},
+	hide: function() {
+		if(!navigation.hiddable) return;
+		$('#navigation').hide();
+		$('#navigationGhost').show();
+	}
+};

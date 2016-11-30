@@ -75,6 +75,7 @@ popups = {
 	showMenu: function(event, element) {
 		// event.preventDefault();
 		event.stopPropagation();
+		navigation.hiddable = false;
 		this.albumId = $(element).parent().attr('data-id');
 		this.element = element;
 		if($(element).parent().hasClass('albumFolder')) {
@@ -86,6 +87,7 @@ popups = {
 		}
 	},
 	close: function() {
+		navigation.hiddable = true;
 		$('#popupWindow').css('display', 'none');
 		$('#popupOverlay').css('display', 'none');
 		$('#albumPopupMenu').css('display', 'none');
@@ -333,7 +335,6 @@ viewPort = {
 	w: 0,
 	maxWidth: 0,
 	maxHeight: 0,
-	naviWidth: 200,
 	init: function() {
 		$(window).on('resize', viewPort.resize);
 		viewPort.resize();
@@ -344,9 +345,8 @@ viewPort = {
 	resize: function() {
 		viewPort.h = $(window).height();
 		viewPort.w = $(window).width();
-		$('#navigation').attr('style', 'height:'+viewPort.h+'px');
-		// $('#mainBlock').attr('style', 'height: '+viewPort.h+'px; width: '+(viewPort.w-viewPort.naviWidth) + 'px');
-		viewPort.maxWidth = viewPort.w-viewPort.naviWidth-viewPort.marginHor;
+		// $('#navigation').attr('style', 'height:'+viewPort.h+'px');
+		viewPort.maxWidth = viewPort.w-viewPort.marginHor;
 		viewPort.maxHeight = viewPort.h-viewPort.marginVer;
 		if ('undefined' !== typeof xhrData.files) layout.onResizeViewPort();
 	}

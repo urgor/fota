@@ -37,6 +37,7 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+<div id="navigationGhost"></div>
 <div id="navigation">
 	<div id="logo">&nbsp;</div>
 	<div id="toolbarBlock">
