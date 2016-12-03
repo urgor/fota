@@ -13,6 +13,9 @@ return [
 			'password' => '____',
 			'charset' => 'utf8',
 		],
+		'request' => [
+			'cookieValidationKey' => '____',
+		],
 	],
 
 	'params' => [
