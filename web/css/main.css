@@ -24,19 +24,19 @@ h6 {margin: 3px 5px; font-size: 11px; font-weight: bold;}
 #folderTree div.name {margin-left:15px; min-height: 15px; cursor: pointer; font-size: 12px; color: rgba(0,0,0,0.45);}
 #folderTree div.name.selected {color: rgba(0,0,0,1);}
 #folderTree .icon.closed {width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-                background: url('/images/sprite.png') -160px 0px;}
+				background: url('/images/sprite.png') -160px 0px;}
 #folderTree .icon.opened {width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-        	background: url('/images/sprite.png') -160px -15px;}
+			background: url('/images/sprite.png') -160px -15px;}
 /*#folderTree .folder {color: rgba(0,0,0,0.45); padding: 0px 0px 0px 14px; margin: 0px 0px 0px 0px; white-space: nowrap; word-wrap: initial; word-break: keep-all;}
 #folderTree .name {heigt: 15px; cursor: pointer;  font-size: 12px;  display: inline-block;}
 #folderTree .name.selected {color: rgba(0,0,0,1);}
 #folderTree .icon {margin-left: -10px}
 #folderTree .closed{width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-                background: url('/images/sprite.png') -160px 0px;}
+				background: url('/images/sprite.png') -160px 0px;}
 #folderTree .opened{width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-        	background: url('/images/sprite.png') -160px -15px;}
+			background: url('/images/sprite.png') -160px -15px;}
 #folderTree .leaf{width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-        	background: url('/images/sprite.png') -160px -30px;}
+			background: url('/images/sprite.png') -160px -30px;}
 */
 /*album tree*/
 #albumTree .albumFolder {color: rgba(0,0,0,0.45); padding: 0px 0px 0px 14px; margin: 0px 0px 0px 0px; white-space: nowrap; word-wrap: initial; word-break: keep-all;}
@@ -123,13 +123,16 @@ label input.noBullet {opacity: 0; display: none;}
 	padding: 2px;
 }
 
-/*text-decoration: none; border-style: solid; border-color: white; border-width: thin;*/
-
-.mainImage{margin: 10px}
+div.imageWrapper {
+	margin: 10px;
+	display: inline-block; position: relative;
+}
+.mainImage {}
 .vListLayout {width: 100%;}
 .vListElement {margin: 10px 0;}
 .vListLayout input[type="checkbox"].pocket {
-    position: absolute; margin: 10px 0 0 10px; padding: 0px;
+	padding: 0px; margin: 0px;
+	position: absolute; position: absolute; right: 0px; top: 0px;
 }
 .hListLayout {white-space:nowrap;}
 .hListElement {display: inline; margin: 0 10px;}
@@ -137,7 +140,8 @@ label input.noBullet {opacity: 0; display: none;}
 .tileElement {display: inline; margin: 10px 10px;}
 .tileImage {max-width: 300px; max-height: 200px;}
 .tileLayout input[type="checkbox"].pocket {
-    right: 18px; bottom: 0px; position: relative;
+	padding: 0px; margin: 0px;
+	position: absolute; position: absolute; right: 0px; top: 0px;
 }
 
 

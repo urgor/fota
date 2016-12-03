@@ -114,8 +114,10 @@ AppAsset::register($this);
 	<!--vertical list layout-->
 	<div class="vListLayout" data-img-class="mainImage"></div>
 	<div class="vListElement"><div class="marker"></div>
-		<input class="pocket" type="checkbox" id="" name="selectedImage[1][]" value="1" />
-		<img class="mainImage" src="" />
+		<div class="imageWrapper">
+			<input class="pocket" type="checkbox" id="" name="selectedImage[1][]" value="1" />
+			<img class="mainImage" src="" />
+		</div>
 		<div class="photoTitle" title="Название"></div><div class="photoDescription" title="Описание"></div><div class="photoKeywords" title="Ключевые слова"></div>
 	</div>
 	<!--horizontal list layout-->
@@ -130,7 +132,10 @@ AppAsset::register($this);
 	<!-- tile layout-->
 	<div class="tileLayout" data-img-class="tileImage"></div>
 	<div class="tileElement">
-		<img class="tileImage" src="" /><input class="pocket" type="checkbox" id="" name="selectedImage[1][]" value="1" />
+		<div class="imageWrapper">
+			<input class="pocket" type="checkbox" id="" name="selectedImage[1][]" value="1" />
+			<img class="tileImage" src="" />
+		</div>
 	</div>
 </div>
 <div id="albumPopupMenu" class="popupMenu"><ul>
