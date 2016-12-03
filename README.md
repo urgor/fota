@@ -2,8 +2,11 @@ About Fota Web Album
 ============================
 
 Fota Web Album is tool to create, photo web albums (Your K.O.)
+
 It can scan some directory subtree, make photos thumbs and index to create it web representation.
+
 Also Fota provides create album from selected images; integrate album to third-party sites; allow doenload album and folder as single zip archive.
+
 Fota never changes original images or directories. Fota does not make a coffee.
 
 REQUIREMENTS
@@ -18,7 +21,11 @@ The minimum requirement
 INSTALLATION
 ------------
 
-### Install from an Archive File
+Checkout project
+
+`git clone git@github.com:urgor/fota.git <projectRoot>`
+
+Setup web directory of your webservert host to `<projectRoot>/web`
 
 Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
 a directory named `<projectRoot>/vendor`.
@@ -26,7 +33,7 @@ a directory named `<projectRoot>/vendor`.
 CONFIGURATION
 -------------
 
-Make copy of `<projectRoot>/config/local_example.php` to `<projectRoot>/config/local.php`
+Make copy of `<projectRoot>/config/local_example.php` to `<projectRoot>/config/local.php` (it is under .gitignore)
 
 ### Database
 
