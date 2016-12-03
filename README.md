@@ -5,9 +5,20 @@ Fota Web Album is tool to create, photo web albums (Your K.O.)
 
 It can scan some directory subtree, make photos thumbs and index to create it web representation.
 
-Also Fota provides create album from selected images; integrate album to third-party sites; allow doenload album and folder as single zip archive.
+Also Fota provides create album from selected images; integrate album to third-party sites; allow download album or folder as single zip archive.
 
 Fota never changes original images or directories. Fota does not make a coffee.
+
+DEMO
+----
+
+[fota-demo.urgor.com.ua](http://fota-demo.urgor.com.ua)
+
+Login: fota
+
+Password: demo
+
+Database resets every 10 vinutes.
 
 REQUIREMENTS
 ------------
