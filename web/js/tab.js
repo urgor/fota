@@ -69,10 +69,13 @@ folderTab = {
 		$('#' + folderTab.folderId + ' > .name').addClass('selected');
 		folder = $('#prototypes li.node');
 		var last;
+		var subFindName;
 		for (var i in data.folders) {
 			sub = folder.clone();
 			sub.attr('id', data.folders[i].id);
-			sub.find('.name').html(data.folders[i].name);
+			subFindName = sub.find('.name');
+			subFindName.html(data.folders[i].name);
+			subFindName.prop('title', data.folders[i].name);
 			sub.find('.icon').addClass(data.folders[i].leaf ? 'leaf' : 'closed');
 
 			last = sub.appendTo('#folderTree li#' + folderTab.folderId + ' > ul.container');

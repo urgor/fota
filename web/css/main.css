@@ -21,7 +21,11 @@ h6 {margin: 3px 5px; font-size: 11px; font-weight: bold;}
 #folderTree li.node {list-style-type: none; margin-left: 15px; zoom: 1; position: relative; background-image: url('/images/i.png'); background-position: left top; background-repeat: repeat-y;}
 #folderTree li.last {background-image: url('/images/l.png'); background-position: left top; background-repeat: no-repeat;}
 #folderTree div.icon {width: 15px; height: 15px; float: left; }
-#folderTree div.name {margin-left:15px; min-height: 15px; cursor: pointer; font-size: 12px; color: rgba(0,0,0,0.45);}
+#folderTree div.name {margin-left:15px; height: 15px; cursor: pointer; font-size: 12px; color: rgba(0,0,0,0.45);
+	white-space: nowrap; /* Запрещаем перенос строк */
+	overflow: hidden; /* Обрезаем все, что не помещается в область */
+	text-overflow: ellipsis; /* Добавляем многоточие */
+}
 #folderTree div.name.selected {color: rgba(0,0,0,1);}
 #folderTree .icon.closed {width: 15px; height: 15px; display: inline-block; opacity: 0.45;
 				background: url('/images/sprite.png') -160px 0px;}
@@ -113,7 +117,7 @@ label input.noBullet {opacity: 0; display: none;}
 #buttonAlbumAdd { border: 0; padding: 0; margin: 0; width: 20px; height: 20px; cursor: pointer; opacity: 0.45;
 	background: url('/images/sprite.png') -20px -100px no-repeat; margin: 5px;
 }
-#buttonAlbumAdd:hover{opacity: 1}
+#buttonAlbumAdd:hover {opacity: 1}
 
 /*pager*/
 #pager {
