@@ -9,7 +9,6 @@ window.onload=function() {
 	tileLayout.prototype = proto;
 	layout = new vListLayout();
 	viewPort.init();
-	pager = new Pager();
 	$('#layoutSelect input[name=layout]').on('change', function() {
 		var ind = layout.currentImage;
 		layout.destroy();
@@ -71,4 +70,5 @@ window.onload=function() {
 	kbd.init();
 	information.init();
 	Pocket.init(LS.settings.pocketVisible);
+	Pager.init();
 }
