@@ -24,13 +24,12 @@ class AuthentificateController extends Controller {
 
 		$model = new \app\models\User(Yii::$app->request->post('email'));
 		if ($model->check(Yii::$app->request->post('password')) ) {
-			error_log('do login');
 			\Yii::$app->user->login($model);
 			$resp['msg'] = $this->renderPartial('authentificated');
 		} else {
 			$resp = [
 				'error' => true,
-				'msg' => $e->getMessage().' -- '.$identity->errorMessage
+				'msg' => 'Usernfame or password mismatch',
 			];
 		}
 

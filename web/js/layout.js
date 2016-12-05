@@ -11,12 +11,15 @@ function layoutProto() {
 			item = itemProto.clone().attr('id', xhrData.files[i].thumb);
 			var img = item.find('img.'+imgClass).attr('src', config.thumbsPath + xhrData.files[i].thumb.substr(0, 1) + '/' + xhrData.files[i].thumb + '.jpg')
 					.attr('data-index_number', i);
-			item.find('input.pocket').attr('id', 'selected_'+xhrData.files[i].id).on('click', function() { LS.clickOn(this); });
+			item.find('input.pocketChkbox[data-pocket-no="1"]').attr('id', 'selected_' + xhrData.files[i].id + '_1').attr('data-image-id', xhrData.files[i].id).on('click', function() { Pocket.clickOn(this); });
+			item.find('input.pocketChkbox[data-pocket-no="2"]').attr('id', 'selected_' + xhrData.files[i].id + '_2').attr('data-image-id', xhrData.files[i].id).on('click', function() { Pocket.clickOn(this); });
+			item.find('input.pocketChkbox[data-pocket-no="3"]').attr('id', 'selected_' + xhrData.files[i].id + '_3').attr('data-image-id', xhrData.files[i].id).on('click', function() { Pocket.clickOn(this); });
+			item.find('input.pocketChkbox[data-pocket-no="4"]').attr('id', 'selected_' + xhrData.files[i].id + '_4').attr('data-image-id', xhrData.files[i].id).on('click', function() { Pocket.clickOn(this); });
 			item.appendTo(layuot);
 			this.resizeElemets(item, img, xhrData.files[i]['info']);
 		}
 		pager.setTotal();
-		LS.toPlace();
+		Pocket.toPlace();
 		this.jumpToImage(pager.currentIndex);
 	};
 	this.onResizeViewPort = function() {};
@@ -116,7 +119,7 @@ function singleLayout() {
 		this.layoutHtml = $('#prototypes >	.' + this.layoutView + 'Layout').clone().appendTo('#mainBlock');
 		this.itemProto = $('#prototypes > .' + this.layoutView + 'Element').clone();
 		pager.setTotal();
-		LS.toPlace();
+		Pocket.toPlace();
 		this.jumpToImage(pager.currentIndex);
 	};
 	this.jumpToImage = function(i) {

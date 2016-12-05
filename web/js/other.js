@@ -7,7 +7,7 @@ LS = {
 		// localStorage.removeItem('pocket');
 		if (!localStorage.getItem('pockets') || !localStorage.getItem('settings')) {
 			// localstorage init
-			this.pockets = [{}, {}];
+			this.pockets = [{},{},{},{},{}];
 			this.save();
 		} else {
 			this.pockets = JSON.parse( localStorage.getItem('pockets') );
@@ -17,37 +17,6 @@ LS = {
 	save: function() { // сохранение кармашков в локалсторадже
 		localStorage.setItem('pockets', JSON.stringify(this.pockets));
 		localStorage.setItem('settings', JSON.stringify(this.settings));
-	},
-
-	//// Убрать нахуй ////
-
-	clickOn: function (item) {
-		item = $(item)
-		var id = item.attr('id').substr(9);
-		if (item.prop('checked')) {
-			this.pockets[1][id] = id;
-		} else {
-			delete this.pockets[1][id]
-		}
-		this.save();
-	},
-	toPlace: function() { // расставить чекбоксы при обновлении старницы
-		for (var i in this.pockets[1]) {
-			$('#selected_'+i).prop('checked', true);
-		}
-	},
-	prepareToSend: function() {
-		return this.pockets[1];
-	},
-	countImg: function() {
-		var c=0;
-		for (i in this.pockets[1]) c++;
-		return c;
-	},
-	clear: function(pocket) {
-		$('.pocket[name="selectedImage['+pocket+'][]"]').prop('checked', false);
-		this.pockets[pocket] = {};
-		this.save();
 	}
 };
 
@@ -101,7 +70,13 @@ popups = {
 			case 'ppGlAd': popups.albumAdd(); break;
 			case 'ppGlDc': popups.albumDec(); break;
 			case 'ppfSlAl': popups.selectAll(1); break;
+			case 'ppfSlAl2': popups.selectAll(2); break;
+			case 'ppfSlAl3': popups.selectAll(3); break;
+			case 'ppfSlAl4': popups.selectAll(4); break;
 			case 'ppfDsAl': popups.deselectAll(1); break;
+			case 'ppfDsAl2': popups.deselectAll(2); break;
+			case 'ppfDsAl3': popups.deselectAll(3); break;
+			case 'ppfDsAl4': popups.deselectAll(4); break;
 			case 'ppfGlDl': popups.downloadFolder(); break;
 			case 'ppfDlLn': popups.showFolderDownloadLink(); break;
 			case 'ppfAcsLn': popups.showFolderAccessLink(); break;
@@ -154,14 +129,14 @@ popups = {
 			url: 'http://'+config.baseUrl + '/album/add',
 			data: {
 				albumId: this.albumId,
-				items: LS.prepareToSend()
+				items: Pocket.prepareToSend()
 			},
 			cache: false
 		})
 		.done(function(response) {
 			if (response.error) alert(response.msg);
 			else {
-				LS.clear(1);
+				Pocket.clear(1);
 				_this.albumId = 0;
 				albumTreeTab.clickHandler({}, $(_this.element).parent());
 				// alert('Изображения успешно добавлены');
@@ -177,14 +152,14 @@ popups = {
 			url: 'http://'+config.baseUrl + '/album/dec',
 			data: {
 				albumId: this.albumId,
-				items: LS.prepareToSend()
+				items: Pocket.prepareToSend()
 			},
 			cache: false
 		})
 		.done(function(response) {
 			if (response.error) alert(response.msg);
 			else {
-				LS.clear(1);
+				Pocket.clear(1);
 				_this.albumId = 0;
 				albumTreeTab.clickHandler({}, $(_this.element).parent());
 				// alert('Изображения убраны из альбома');
@@ -204,7 +179,7 @@ popups = {
 	},
 	deselectAll: function(pocket) {
 		this.close();
-		$('#mainBlock input[name="selectedImage['+pocket+'][]"]').each(function(indx, element){
+		$('#mainBlock input.pocketChkbox[data-pocket-no="'+pocket+'"]').each(function(indx, element){
 			if ($(element).prop('checked')) $(element).trigger('click');
 		});
 	},
@@ -304,7 +279,7 @@ kbd = {
 				fullScreenOff();
 				return false;
 			case 80: // p
-				pockets.toggleVisibility();
+				Pocket.toggleVisibility();
 				return false;
 			case 84: // t
 				$('#toolbarBlock > div[href="#folderTree"]').trigger('click');
@@ -395,7 +370,7 @@ information = {
 	}
 }
 
-pockets = {
+Pocket = {
 	init: function(state) {
 		if (!state) this.hide();
 	},
@@ -404,13 +379,69 @@ pockets = {
 	},
 	hide: function() {
 		LS.settings.pocketVisible = false;
-		LS.save(); // говнецо
-		$('input.pocket').each(function(indx, element){ $(element).css('display', 'none'); });
+		LS.save();
+		$('input.pocketChkbox').each(function(indx, element){ $(element).css('display', 'none'); });
 	},
 	show: function() {
 		LS.settings.pocketVisible = true;
-		LS.save(); // говнецо
-		$('input.pocket').each(function(indx, element){ $(element).css('display', ''); });
+		LS.save();
+		$('input.pocketChkbox').each(function(indx, element){ $(element).css('display', ''); });
 
+	},
+	clickOn: function (item) {
+		item = $(item)
+		var id = item.attr('data-image-id');
+		var pocketNo = parseInt(item.attr('data-pocket-no'))
+		if (item.prop('checked')) {
+			LS.pockets[pocketNo][id] = id;
+		} else {
+			delete LS.pockets[pocketNo][id]
+		}
+		LS.save();
+	},
+	toPlace: function() { // расставить чекбоксы при обновлении старницы
+		for (pocketNo = 1; pocketNo <= 4; pocketNo++) {
+			for (var i in LS.pockets[pocketNo]) {
+				$('#selected_' + i + '_' + pocketNo).prop('checked', true);
+			}
+		}
+	},
+	prepareToSend: function(pocketNo) {
+		return LS.pockets[pocketNo];
+	},
+	countImg: function(pocketNo) {
+		var c=0;
+		for (i in LS.pockets[pocketNo]) c++;
+		return c;
+	},
+	clear: function(pocketNo) {
+		$('.pocket[name="selectedImage['+pocketNo+'][]"]').prop('checked', false);
+		LS.pockets[pocketNo] = {};
+		LS.save();
 	}
+}
+
+function Pager() {
+	this.currentIndex = 0;
+	this.total = 0;
+	var _this = this;
+	this.setTotal = function() {
+		if ('undefined' !== typeof xhrData.files) _this.total = xhrData.files.length;
+		$('#pagerTotal').html(_this.total);
+	};
+	this.setCurrentIndex = function(idx) {
+		_this.currentIndex = idx;
+		_this.draw();
+	}
+	this.inc = function() {
+		_this.currentIndex++;
+		_this.draw();
+	}
+	this.dec = function() {
+		_this.currentIndex--;
+		_this.draw();
+	}
+	this.draw = function() {
+		$('#pagerCurrent').html(_this.currentIndex + 1);
+	};
 }

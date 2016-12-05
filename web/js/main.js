@@ -70,5 +70,5 @@ window.onload=function() {
 	LS.init();
 	kbd.init();
 	information.init();
-	pockets.init(LS.settings.pocketVisible);
+	Pocket.init(LS.settings.pocketVisible);
 }

@@ -189,6 +189,31 @@ albumTreeTab = {
 	mouseOut: function(event, element) {
 		// if ($(element).prop('id') === this.selectedAlbum) return false;
 		$(element).find('.albumMenuButton').css('visibility', 'hidden');
+	},
+	createGalley: function(pocketNo) {
+		var form = $('.formCreateGalley');
+		if (!form.find('input[name="name"]').prop('value')) {alert('Необходимо название альбома'); return false;}
+		if (0 === Pocket.countImg(pocketNo)) {alert('Нет отмеченных изображений'); return false;}
+		var data = {
+			items: Pocket.prepareToSend(pocketNo),
+			name: form.find('input[name="name"]').prop('value')
+		};
+		$.ajax({
+			type: form.attr('method'),
+			url: form.attr('action'),
+			cache: false,
+			data: data
+		})
+		.done(function(response) {
+			if (response.error) {
+				alert(response.msg);
+			} else {
+				Pocket.clear(pocketNo);
+				albumTreeTab.load();
+			}
+		})
+		.fail(function(jqXHR, textStatus) { alert("Request failed: " + textStatus);});
+		return false;
 	}
 };
 

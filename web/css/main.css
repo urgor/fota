@@ -114,10 +114,26 @@ label input.noBullet {opacity: 0; display: none;}
 #button_logout { border: 0; padding: 0; margin: 0; width: 25px; height: 20px; cursor: pointer;
 	background: url('/images/sprite.png') -205px 0px no-repeat; margin: 5px;
 }
-#buttonAlbumAdd { border: 0; padding: 0; margin: 0; width: 20px; height: 20px; cursor: pointer; opacity: 0.45;
-	background: url('/images/sprite.png') -20px -100px no-repeat; margin: 5px;
+a.btnCreateAlbum {
+	display: inline-block;
+	padding: 3px 19px; margin: 0px 5px 20px 5px;
+	color: rgba(0,0,0,0.45); border-color: rgba(127,127,127,1);
+	border: 1px solid;
+	text-decoration: none; /* убирать подчёркивание у ссылок */
+	user-select: none; /* убирать выделение текста */
+	outline: none; /* убирать контур в Mozilla */
+	cursor: default;
 }
-#buttonAlbumAdd:hover {opacity: 1}
+a.btnCreateAlbum:hover { /* при наведении курсора мышки */
+	color: rgba(0,0,0,1); border-color: rgba(0,0,0,1)
+}
+a.btnCreateAlbum:active { /* при нажатии */
+	background: rgb(255,255,255);
+}
+.inpAlbumName {
+	width: 280px;
+	margin-bottom: 10px;
+}
 
 /*pager*/
 #pager {
@@ -134,10 +150,14 @@ div.imageWrapper {
 .mainImage {}
 .vListLayout {width: 100%;}
 .vListElement {margin: 10px 0;}
-.vListLayout input[type="checkbox"].pocket {
+.vListLayout .pocketChkbox {
 	padding: 0px; margin: 0px;
-	position: absolute; position: absolute; right: 0px; top: 0px;
+	position: absolute; position: absolute; top: 0px;
 }
+.first{right: 42px}
+.second{right: 28px}
+.third{right: 14px}
+.fourth{right: 0px}
 .hListLayout {white-space:nowrap;}
 .hListElement {display: inline; margin: 0 10px;}
 .tileLayout {}

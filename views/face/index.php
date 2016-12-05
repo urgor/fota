@@ -71,9 +71,16 @@ AppAsset::register($this);
 	</div>
 	<div id="albumTree" style="display: none">
 		<h5>Альбомы</h5>
-		<form class="formCreateGalley" action="/album/create" method="POST" autocomplete="off" onsubmit="return formCreateGalley(); return false;">
-			<input type="text" name="name" size="15" hint="название альбома" title="название нового альбома" class="hinting" style="width: 143px" /><input id="buttonAlbumAdd" type="button" value="" title="Создать альбом" onclick="return formCreateGalley(); return false;" />
+		<h6>Создать новый</h6>
+		<form class="formCreateGalley" action="/album/create" method="POST" autocomplete="off" onsubmit="return false;">
+			<input type="text" name="name" size="15" hint="название альбома" title="название нового альбома" class="hinting inpAlbumName" /><br />
+			<!-- <input id="buttonAlbumAdd" type="button" value="" title="Создать альбом" onclick="return formCreateGalley(); return false;" /> -->
+			<a class="btnCreateAlbum" title="Создать альбом из кармана #1" onclick="return albumTreeTab.createGalley(1); return false;">1</a>
+			<a class="btnCreateAlbum" title="Создать альбом из кармана #2" onclick="return albumTreeTab.createGalley(2); return false;">2</a>
+			<a class="btnCreateAlbum" title="Создать альбом из кармана #3" onclick="return albumTreeTab.createGalley(3); return false;">3</a>
+			<a class="btnCreateAlbum" title="Создать альбом из кармана #4" onclick="return albumTreeTab.createGalley(4); return false;">4</a>
 		</form>
+		<h6>Альбомы</h6>
 		<div id="albumList"></div>
 	</div>
 	<div id="helpSide" style="display: none">
@@ -115,7 +122,10 @@ AppAsset::register($this);
 	<div class="vListLayout" data-img-class="mainImage"></div>
 	<div class="vListElement"><div class="marker"></div>
 		<div class="imageWrapper">
-			<input class="pocket" type="checkbox" id="" name="selectedImage[1][]" value="1" />
+			<input class="pocketChkbox first" type="checkbox" name="selectedImage[1][]" value="1" data-pocket-no="1" title="Карман #1" />
+			<input class="pocketChkbox second" type="checkbox" name="selectedImage[2][]" value="1" data-pocket-no="2" title="Карман #2" />
+			<input class="pocketChkbox third" type="checkbox" name="selectedImage[3][]" value="1" data-pocket-no="3" title="Карман #3" />
+			<input class="pocketChkbox fourth" type="checkbox" name="selectedImage[4][]" value="1" data-pocket-no="4" title="Карман #4" />
 			<img class="mainImage" src="" />
 		</div>
 		<div class="photoTitle" title="Название"></div><div class="photoDescription" title="Описание"></div><div class="photoKeywords" title="Ключевые слова"></div>
@@ -147,7 +157,13 @@ AppAsset::register($this);
 </ul></div>
 <div id="folderPopupMenu" class="popupMenu"><ul>
 	<li id="ppfSlAl">Поместить все в карман #1</li>
-	<li id="ppfDsAl">Очистить карман #1</li>
+	<li id="ppfSlAl">Поместить все в карман #2</li>
+	<li id="ppfSlAl">Поместить все в карман #3</li>
+	<li id="ppfSlAl">Поместить все в карман #4</li>
+	<li id="ppfDsAl" class="topMargin">Убрать каталог из кармана #1</li>
+	<li id="ppfDsAl2">Убрать каталог из кармана #2</li>
+	<li id="ppfDsAl3">Убрать каталог из кармана #3</li>
+	<li id="ppfDsAl4">Убрать каталог из кармана #4</li>
 	<li id="ppfGlDl" class="topMargin">Скачать</li>
 	<li id="ppfDlLn">Ссылка для скачивания</li>
 	<li id="ppfAcsLn">Ссылка для доступа</li>
