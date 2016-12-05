@@ -299,6 +299,18 @@ kbd = {
 			case 73: // i
 				information.toggle();
 				return false;
+			case 49: // 1
+				Pocket.keyPress(1);
+				return false;
+			case 50: // 2
+				Pocket.keyPress(2);
+				return false;
+			case 51: // 3
+				Pocket.keyPress(3);
+				return false;
+			case 52: // 4
+				Pocket.keyPress(4);
+				return false;
 		}
 	}
 }
@@ -366,7 +378,7 @@ information = {
 				break;
 		}
 		layout.onResizeViewPort();
-		layout.jumpToImage(pager.currentIndex);
+		layout.jumpToImage(Pager.currentIndex);
 	}
 }
 
@@ -418,30 +430,35 @@ Pocket = {
 		$('.pocket[name="selectedImage['+pocketNo+'][]"]').prop('checked', false);
 		LS.pockets[pocketNo] = {};
 		LS.save();
+	},
+	keyPress: function(pocketNo) {
+		if ('undefined' === typeof xhrData.files || 'undefined' === typeof xhrData.files[i]) return false;
+		$('#selected_' + xhrData.files[Pager.currentIndex].id + '_' + pocketNo).click();
 	}
 }
 
-function Pager() {
-	this.currentIndex = 0;
-	this.total = 0;
-	var _this = this;
-	this.setTotal = function() {
-		if ('undefined' !== typeof xhrData.files) _this.total = xhrData.files.length;
-		$('#pagerTotal').html(_this.total);
-	};
-	this.setCurrentIndex = function(idx) {
-		_this.currentIndex = idx;
-		_this.draw();
+Pager = {
+	init: function() {
+		this.currentIndex = 0;
+		this.total = 0;
+	},
+	setTotal: function() {
+		if ('undefined' !== typeof xhrData.files) Pager.total = xhrData.files.length;
+		$('#pagerTotal').html(Pager.total);
+	},
+	setCurrentIndex: function(idx) {
+		Pager.currentIndex = idx;
+		Pager.draw();
+	},
+	inc: function() {
+		Pager.currentIndex++;
+		Pager.draw();
+	},
+	dec: function() {
+		Pager.currentIndex--;
+		Pager.draw();
+	},
+	draw: function() {
+		$('#pagerCurrent').html(Pager.currentIndex + 1);
 	}
-	this.inc = function() {
-		_this.currentIndex++;
-		_this.draw();
-	}
-	this.dec = function() {
-		_this.currentIndex--;
-		_this.draw();
-	}
-	this.draw = function() {
-		$('#pagerCurrent').html(_this.currentIndex + 1);
-	};
 }

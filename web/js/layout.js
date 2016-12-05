@@ -1,5 +1,5 @@
 function layoutProto() {
-	pager.currentIndex = 0;
+	Pager.currentIndex = 0;
 	var width = 0;
 	this.redrawMain = function() {
 		$('#mainBlock').html('');
@@ -18,9 +18,9 @@ function layoutProto() {
 			item.appendTo(layuot);
 			this.resizeElemets(item, img, xhrData.files[i]['info']);
 		}
-		pager.setTotal();
+		Pager.setTotal();
 		Pocket.toPlace();
-		this.jumpToImage(pager.currentIndex);
+		this.jumpToImage(Pager.currentIndex);
 	};
 	this.onResizeViewPort = function() {};
 	this.resizeElemets = function(item, img, fileInfo) {
@@ -45,16 +45,16 @@ function layoutProto() {
 		img.css('max-width', this.layoutWidth - viewPort.marginHor +'px');
 	};
 	this.previousImage = function() {
-		if (pager.currentIndex > 0) {
-			pager.dec();
-			this.jumpToImage(pager.currentIndex);
+		if (Pager.currentIndex > 0) {
+			Pager.dec();
+			this.jumpToImage(Pager.currentIndex);
 		}
 		return false;
 	};
 	this.nextImage = function() {
-		if (pager.currentIndex < xhrData.files.length - 1) {
-			pager.inc();
-			this.jumpToImage(pager.currentIndex);
+		if (Pager.currentIndex < xhrData.files.length - 1) {
+			Pager.inc();
+			this.jumpToImage(Pager.currentIndex);
 		}
 		return false;
 	};
@@ -78,7 +78,7 @@ function vListLayout() {
 		for (var i = 0; i < imgs.length; i++) {
 			var img = imgs[i];
 			if (_this.isVisible(img)) {
-				pager.setCurrentIndex(parseInt($(img).attr('data-index_number')));
+				Pager.setCurrentIndex(parseInt($(img).attr('data-index_number')));
 				return true;
 			}
 		}
@@ -118,9 +118,9 @@ function singleLayout() {
 		$('#mainBlock').html('');
 		this.layoutHtml = $('#prototypes >	.' + this.layoutView + 'Layout').clone().appendTo('#mainBlock');
 		this.itemProto = $('#prototypes > .' + this.layoutView + 'Element').clone();
-		pager.setTotal();
+		Pager.setTotal();
 		Pocket.toPlace();
-		this.jumpToImage(pager.currentIndex);
+		this.jumpToImage(Pager.currentIndex);
 	};
 	this.jumpToImage = function(i) {
 		$(this.layoutHtml).html('');
