@@ -30,4 +30,6 @@ $config = [
     */
 ];
 
-return array_merge_recursive($config, require(__DIR__ . '/local.php'));
+$local = require(__DIR__ . '/local.php');
+unset($local['components']['request']['cookieValidationKey']);
+return array_merge_recursive($config, $local);
