@@ -8,66 +8,41 @@ use creocoder\nestedsets\NestedSetsBehavior;
 
 class Folders extends ActiveRecord {
 
-    public function behaviors() {
-        return [
-            'tree' => [
-                'class' => NestedSetsBehavior::className(),
-                // 'treeAttribute' => 'tree',
-                'leftAttribute' => 'left',
-                'rightAttribute' => 'right',
-                'depthAttribute' => 'level',
-            ],
-        ];
-    }
-
-    public function transactions()
-    {
-        return [
-            self::SCENARIO_DEFAULT => self::OP_ALL,
-        ];
-    }
-
-    public static function find()
-    {
-        return new FolderQuery(get_called_class());
-    }
-
-
-
-
-
-
-/*
-	public function attributeNames() {
-		return ['id', 'name', 'level', 'right', 'left'];
-	}
-
-	public function tableName() {
+	public static function tableName() {
 		return 'folders';
-	}
-
-	public static function model($className = __CLASS__) {
-		return parent::model($className);
 	}
 
 	public function behaviors() {
 		return [
-			'NestedSetBehavior' => [
-				// /protected/extensions/behaviors/trees/NestedSetBehavior
-				'class' => 'ext.behaviors.trees.NestedSetBehavior',
+			'tree' => [
+				'class' => NestedSetsBehavior::className(),
+				// 'treeAttribute' => 'tree',
 				'leftAttribute' => 'left',
 				'rightAttribute' => 'right',
-				'levelAttribute' => 'level',
-			]
+				'depthAttribute' => 'level',
+			],
 		];
 	}
 
-	public function primaryKey() {
-		return 'folder_id';
-	}*/
+	public function transactions()
+	{
+		return [
+			self::SCENARIO_DEFAULT => self::OP_ALL,
+		];
+	}
 
-//    public function truncate() {
-//        Yii::app()->db->createCommand('TRUNCATE TABLE folders')
-//                ->execute();
-//    }
+	public static function find()
+	{
+		return new FolderQuery(get_called_class());
+	}
+
+	public static function findEmpty() {
+		return static::findBySql('select f.*, count(file_id) cnt
+				from `' . self::tableName() . '` f
+					left join `files` using (folder_id)
+				where `left`+1 = `right`
+				group by f.folder_id
+				having cnt = 0
+			')->all();
+	}
 }

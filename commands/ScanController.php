@@ -42,31 +42,7 @@ class ScanController extends Controller {
 			$root->makeRoot();
 		}
 		$this->scanDir('', $root);
-		$rmFiles = \app\models\Files::findAll(['processed' => 0]);
-		if (0 === count($rmFiles)) {
-			echo "No thumbs to delete.\n";
-		} else {
-			echo "Deleting thumbs:\n";
-            foreach($rmFiles as $file) {
-				$fName = self::makeThumbPath($file->md_path);
-				echo $fName.' ';
-				if (file_exists($fName)) {
-					if (!is_writable($fName)) {
-						echo "not writeable!\n";
-						continue;
-					}
-					if(!unlink($fName)) {
-						echo 'cant delete file fron FS!';
-						continue;
-					}
-				}
-				\app\models\AlbumFiles::deleteAll(['file_id' => $file->file_id]);
-				$file->delete();
-				echo $file->file_id . ' deleted';
-
-				echo PHP_EOL;
-			}
-		}
+		$this->deleteEmpty();
 	}
 
 	/**
@@ -237,6 +213,42 @@ class ScanController extends Controller {
 		}
 		$FileInfo->value = $value;
 		return (bool)$FileInfo->save();
+	}
+
+	private function deleteEmpty() {
+		$rmFiles = \app\models\Files::findAll(['processed' => 0]);
+		if (0 === count($rmFiles)) {
+			echo "No thumbs to delete.\n";
+		} else {
+			echo "Deleting thumbs:\n";
+            foreach($rmFiles as $file) {
+				$fName = self::makeThumbPath($file->md_path);
+				echo $fName.' ';
+				if (file_exists($fName)) {
+					if (!is_writable($fName)) {
+						echo "not writeable!\n";
+						continue;
+					}
+					if(!unlink($fName)) {
+						echo 'cant delete file fron FS!';
+						continue;
+					}
+				}
+				\app\models\AlbumFiles::deleteAll(['file_id' => $file->file_id]);
+				$file->delete();
+				echo $file->file_id . ' deleted';
+
+				echo PHP_EOL;
+			}
+		}
+
+		while($folders = \app\models\Folders::findEmpty()) {
+			foreach ($folders as $folder) {
+				echo "Delete empty folder " . $folder->name . PHP_EOL;
+				$folder->delete();
+			}
+		}
+
 	}
 
 }
