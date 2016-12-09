@@ -79,6 +79,15 @@ AUTHORS
 
 Alexandr Olejnik, [mailto Urgor](mailto:urgorka@gmail.com)
 
+INSPIRATION
+-----------
+
+Cosy or minimalistic web interfaces that i prefere to inherit:
+
+- [workflowy.com](http://workflowy.com)
+- [Jira](https://ru.atlassian.com/software/jira)
+- [tiddlyspot.com/](http://tiddlyspot.com/)
+
 LICENSE
 -------
 
