@@ -23,4 +23,15 @@ class FileInfo extends ActiveRecord {
 		$command->query();
 	}
 
+	public static function getByFile($fileId) {
+		$info = [];
+		foreach (static::findAll(['file_id' => $fileId]) as $infoBit) {
+			$info[$infoBit['key']] = $infoBit['value'];
+		}
+		foreach (['width', 'height'] as $field) {
+			if (isset($info[$field])) $info[$field] = (int) $info[$field];
+		}
+
+		return $info;
+	}
 }

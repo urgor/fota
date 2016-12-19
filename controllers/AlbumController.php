@@ -3,6 +3,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
+use app\models\FileInfo;
 
 class AlbumController extends Controller {
 
@@ -18,19 +19,19 @@ class AlbumController extends Controller {
 	 */
 	public function actionCreate() {
 		try {
-			if (Yii::$app->user->isGuest) throw new Exception("Need login", 1);
-			if (empty($_POST['name']) || empty($_POST['items'])) throw new Exception("Empty data", 1);
+			if (Yii::$app->user->isGuest) throw new \Exception("Need login", 1);
+			if (empty($_POST['name']) || empty($_POST['items'])) throw new \Exception("Empty data", 1);
 			$album = new \app\models\Albums;
 			$album->name = filter_var($_POST['name'], FILTER_SANITIZE_SPECIAL_CHARS);
-			if (!$album->save()) throw new Exception("Error creating album", 1);
+			if (!$album->save()) throw new \Exception("Error creating album", 1);
 
 			foreach ($_POST['items'] as $item) {
 				$albumFiles = new \app\models\AlbumFiles;
 				$albumFiles->album_id = $album->album_id;
 				$albumFiles->file_id = $item;
-				if (!$albumFiles->save()) throw new Exception("Error adding images", 1);
+				if (!$albumFiles->save()) throw new \Exception("Error adding images", 1);
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->_data['error'] = true;
 			$this->_data['msg'] = $e->getMessage();
 		}
@@ -69,11 +70,11 @@ class AlbumController extends Controller {
 	 */
 	public function actionDelete(){
 		try {
-			if (Yii::$app->user->isGuest) throw new Exception("Need login", 1);
-			if (empty(Yii::$app->request->post('albumId'))) throw new Exception("Empty data", 1);
+			if (Yii::$app->user->isGuest) throw new \Exception("Need login", 1);
+			if (empty(Yii::$app->request->post('albumId'))) throw new \Exception("Empty data", 1);
 			\app\models\AlbumFiles::deleteAll(['album_id' => (int)Yii::$app->request->post('albumId')]);
 			\app\models\Albums::deleteAll(['album_id' => (int)Yii::$app->request->post('albumId')]);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->_data['error'] = true;
 			$this->_data['msg'] = $e->getMessage();
 		}
@@ -85,20 +86,20 @@ class AlbumController extends Controller {
 	 */
 	public function actionAdd(){
 		try {
-			if (Yii::$app->user->isGuest) throw new Exception("Need login", 1);
-			if (empty(Yii::$app->request->post('items')) || empty(Yii::$app->request->post('albumId'))) throw new Exception("Empty data", 1);
+			if (Yii::$app->user->isGuest) throw new \Exception("Need login", 1);
+			if (empty(Yii::$app->request->post('items')) || empty(Yii::$app->request->post('albumId'))) throw new \Exception("Empty data", 1);
 
 			$album = \app\models\Albums::findOne((int)Yii::$app->request->post('albumId'));
-			if (!$album) throw new Exception("There is no such album", 1);
+			if (!$album) throw new \Exception("There is no such album", 1);
 
 			foreach (Yii::$app->request->post('items') as $itemId) {
 				$itemId = (int) $itemId;
 				$albumFiles = new \app\models\AlbumFiles;
 				$albumFiles->album_id = $album->album_id;
 				$albumFiles->file_id = $itemId;
-				if (!$albumFiles->insert()) throw new Exception("Error adding image", 1);
+				if (!$albumFiles->insert()) throw new \Exception("Error adding image", 1);
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->_data['error'] = true;
 			$this->_data['msg'] = $e->getMessage();
 		}
@@ -110,16 +111,16 @@ class AlbumController extends Controller {
 	 */
 	public function actionDec(){
 		try {
-			if (Yii::$app->user->isGuest) throw new Exception("Need login", 1);
+			if (Yii::$app->user->isGuest) throw new \Exception("Need login", 1);
 			$album = \app\models\Albums::findOne((int)Yii::$app->request->post('albumId'));
 
-			if (!$album) throw new Exception("No such album", 1);
-			if (empty(Yii::$app->request->post('items'))) throw new Exception("Error removing images", 1);
+			if (!$album) throw new \Exception("No such album", 1);
+			if (empty(Yii::$app->request->post('items'))) throw new \Exception("Error removing images", 1);
 
 			$items = array_map('intval', Yii::$app->request->post('items'));
 			\app\models\AlbumFiles::deleteAll(['and', ['album_id' => $album->album_id], ['file_id' => $items]]);
 
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->_data['error'] = true;
 			$this->_data['msg'] = $e->getMessage();
 		}
@@ -140,7 +141,7 @@ class AlbumController extends Controller {
 					'id' => $file['file_id'],
 					'thumb' =>$file['md_path'],
 					'name' => $file['original_name'],
-					'info' => $albumFile,
+					'info' => array_merge(FileInfo::getByFile($file['file_id']), $albumFile->toArray()),
 				];
 			}
 			return true;
