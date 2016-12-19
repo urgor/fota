@@ -161,11 +161,14 @@ div.imageWrapper {
 .hListLayout {white-space:nowrap;}
 .hListElement {display: inline; margin: 0 10px;}
 .tileLayout {}
-.tileElement {display: inline; margin: 10px 10px;}
-.tileImage {max-width: 300px; max-height: 200px;}
+.tileElement {display: inline-block; margin: 0; padding: 0;}
+.tileImage {vertical-align: top;}
 .tileLayout input[type="checkbox"].pocket {
 	padding: 0px; margin: 0px;
 	position: absolute; position: absolute; right: 0px; top: 0px;
+}
+.imageWrapper.tileWrapper {
+	margin: 1px;
 }
 
 

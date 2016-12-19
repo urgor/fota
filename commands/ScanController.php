@@ -20,9 +20,15 @@ class ScanController extends Controller {
 	// 	return $out;
 	// }
 
-	public function optionAliases() {
-		return ['e' => 'extra'];
+	public $update_info = false;
+
+	public function options($actionId) {
+		return ['update_info'];
 	}
+
+	// public function optionAliases() {
+	// 	return ['u' => 'update_info'];
+	// }
 
 	public function actionIndex() {
 		// foreach (array_keys($this->params) as $key) {
@@ -85,7 +91,7 @@ class ScanController extends Controller {
 				// $oldMdContent = md5(file_get_contents($path));
 				$output = [];
 				$returnVar = 0;
-				exec('md5sum --binary ' . preg_replace('/(["\' \(\);])/', '\\\$1', $path), $output, $returnVar);
+				exec('md5sum --binary ' . self::escapePath($path), $output, $returnVar);
 				if (0 != $returnVar) throw new \Exception('Error calculating md5 sum', 1);
 				$mdContent = substr($output[0], 0, 32);
 
@@ -108,7 +114,7 @@ class ScanController extends Controller {
 						$file->md_content = $mdContent;
 						$file->processed = 1;
 						$file->save();
-						$this->fillInfo($file->file_id, $path);
+						$this->fillInfo($file->file_id, $path, self::makeThumbPath($mdPath));
 						echo "File $entry Saved new\n";
 					} else {
 						// -path +content => content set cur path
@@ -121,7 +127,7 @@ class ScanController extends Controller {
 						$findContent->md_path = $mdPath;
 						$findContent->processed = 1;
 						$l = $findContent->save();
-						// if ($this->params['update_info']['val']) $this->fillInfo($findContent->file_id, $path); // option update_info
+						if ($this->update_info) $this->fillInfo($findContent->file_id, $path, self::makeThumbPath($mdPath));
 						echo "File $entry Moved\n";
 					}
 				} else {
@@ -131,14 +137,14 @@ class ScanController extends Controller {
 						$findPath->processed = 1;
 						$findPath->save();
 						$this->makeThumb($path, $mdPath);
-						// if ($this->params['update_info']['val']) $this->fillInfo($findPath->file_id, $path); // option update_info
+						if ($this->update_info) $this->fillInfo($findPath->file_id, $path, self::makeThumbPath($mdPath));
 						echo "File $entry Updated\n";
 					} else {
 						// +path +content => processed
 						$findContent->processed = 1;
 						$findContent->save();
 						// if ($this->params['rethumb']['val']) $this->makeThumb($path, $mdPath); // option rethumb
-						// if ($this->params['update_info']['val']) $this->fillInfo($findContent->file_id, $path); // option update_info
+						if ($this->update_info) $this->fillInfo($findContent->file_id, $path, self::makeThumbPath($mdPath));
 						echo "\r";
 					}
 				}
@@ -160,12 +166,16 @@ class ScanController extends Controller {
 
 	private function makeThumb($path, $mdPath) {
 		exec (
-			'convert "'.str_replace('"', '\"', $path).'" -auto-orient '
+			'convert ' . self::escape_path($path) . '" -auto-orient '
 			.'-thumbnail '.Yii::$app->params['thumbnail']['big']['maxWidth'].'x'.Yii::$app->params['thumbnail']['big']['maxHeight']
 			.'\\> -quality '.Yii::$app->params['thumbnail']['big']['quality'].' '.self::makeThumbPath($mdPath)
 			, $output, $returnVar
 		);
 		return $returnVar;
+	}
+
+	private static function escapePath($path) {
+		return preg_replace('/(["\' \(\);])/', '\\\$1', $path);
 	}
 
 	/**
@@ -175,8 +185,8 @@ class ScanController extends Controller {
 	 * @param $path str Путь и имя к файлу в ФС
 	 * @return bool
 	 */
-	private function fillInfo($file_id, $path) {
-		$data = shell_exec('exiftool -j '.str_replace([' ', '(', ')'], ['\ ', '\(', '\)'], $path));
+	private function fillInfo($fileId, $path, $thumbnail) {
+		$data = shell_exec('exiftool -j ' . self::escapePath($path));
 		if(!$data) return false;
 		$data = json_decode($data, true);
 		if(!$data) return false;
@@ -186,13 +196,28 @@ class ScanController extends Controller {
 		elseif(!empty($data['FileModifyDate'])) $timestamp = strtotime($data['FileModifyDate']);
 		else return false;
 
-		if (!empty($timestamp)) $this->writeInfo($file_id, 'exif_create_timestamp', $timestamp);
-		if (!empty($data['Description'])) $this->writeInfo($file_id, 'exif_description', $data['Description']);
-		if (!empty($data['Title'])) $this->writeInfo($file_id, 'exif_title', $data['Title']);
+		$info = [];
+		if (!empty($timestamp)) $info['exif_create_timestamp'] = $timestamp;
 		if (!empty($data['Subject'])) {
-			if (is_array($data['Subject'])) $this->writeInfo($file_id, 'exif_keywords', implode(', ', $data['Subject']));
-			else $this->writeInfo($file_id, 'exif_keywords', $data['Subject']);
+			if (is_array($data['Subject'])) $info['exif_keywords'] = implode(', ', $data['Subject']);
+			else $info['exif_keywords'] = $data['Subject'];
 		}
+
+		list($info['width'], $info['height']) = getimagesize($thumbnail);
+
+		foreach ([
+			// 'ExifImageWidth' => 'width',
+			// 'ExifImageHeight' => 'height',
+			// 'ImageWidth' => 'width', // upper -- higher priority
+			// 'ImageHeight' => 'height',
+			'Description' => 'exif_description',
+			'Title' => 'exif_title',
+		] as $exif => $myKey) {
+			if (!empty($data[$exif]) && empty($info[$myKey])) $info[$myKey] = $data[$exif];
+		}
+
+		\app\models\FileInfo::writeInfo($fileId, $info);
+
 		return true;
 	}
 

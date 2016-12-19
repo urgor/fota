@@ -51,3 +51,5 @@ CREATE TABLE `folder_property` (
   UNIQUE KEY `folder_id` (`folder_id`),
   UNIQUE KEY `access_code` (`access_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table `file_info` modify `key` enum('exif_create_timestamp','exif_description','exif_title','exif_keywords','width','height') NOT NULL;

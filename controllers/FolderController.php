@@ -6,7 +6,6 @@ use Yii;
 use yii\web\Controller;
 use app\models\Folders;
 use app\models\Files;
-use app\models\FileInfo;
 use app\models\FolderProperty;
 
 
@@ -31,18 +30,18 @@ class FolderController extends Controller {
 					$folder = $this->getFolderByAccesHash($accessHash);
 					$data['folders'] = [self::mapFields($folder)];
 					$data['folders'][0]['folders'] = $this->getSubFolders($folder);
-					$data['folders'][0]['files'] = $this->getFiles($folder->folder_id);
+					$data['folders'][0]['files'] = Files::getByFolder($folder->folder_id);
 
 				} elseif ($this->checkAccessByHash($parent, $accessHash)) {
 					$data['folders'] = $this->getSubFolders($parent);
-					$data['files'] = $this->getFiles($folderId);
+					$data['files'] = Files::getByFolder($folderId);
 				} else {
 					throw new \Exception("Permission denied", 1);
 
 				}
 			} else {
 				$data['folders'] = $this->getSubFolders($parent);
-				$data['files'] = $this->getFiles($folderId);
+				$data['files'] = Files::getByFolder($folderId);
 			}
 
 		} catch (\Exception $e) {
@@ -75,23 +74,6 @@ class FolderController extends Controller {
 	private function checkAccessByHash($parent, $accessHash) {
 		$hashedFolder = $this->getFolderByAccesHash($accessHash);
 		return $parent->isChildOf($hashedFolder) || $parent->folder_id == $hashedFolder->folder_id;
-	}
-
-	private function getFiles($folderId) {
-		$data = [];
-		foreach (Files::find()->where(['folder_id' => $folderId])->orderBy('original_name')->all() as $file) {
-			$info = [];
-			foreach (FileInfo::findAll(['file_id' => $file->file_id]) as $infoBit) {
-				$info[$infoBit['key']] = $infoBit['value'];
-			}
-			$data[] = [
-				'id' => $file->file_id,
-				'thumb' => $file->md_path,
-				'name' => $file->original_name,
-				'info' => $info,
-			];
-		}
-		return $data;
 	}
 
 	public function actionAccessLink() {

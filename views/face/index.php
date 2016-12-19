@@ -147,7 +147,7 @@ AppAsset::register($this);
 	<!-- tile layout-->
 	<div class="tileLayout" data-img-class="tileImage"></div>
 	<div class="tileElement">
-		<div class="imageWrapper">
+		<div class="imageWrapper tileWrapper">
 			<input class="pocket" type="checkbox" id="" name="selectedImage[1][]" value="1" />
 			<img class="tileImage" src="" />
 		</div>
