@@ -166,7 +166,7 @@ class ScanController extends Controller {
 
 	private function makeThumb($path, $mdPath) {
 		exec (
-			'convert ' . self::escape_path($path) . '" -auto-orient '
+			'convert ' . self::escapePath($path) . '" -auto-orient '
 			.'-thumbnail '.Yii::$app->params['thumbnail']['big']['maxWidth'].'x'.Yii::$app->params['thumbnail']['big']['maxHeight']
 			.'\\> -quality '.Yii::$app->params['thumbnail']['big']['quality'].' '.self::makeThumbPath($mdPath)
 			, $output, $returnVar
