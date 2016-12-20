@@ -67,8 +67,14 @@ popups = {
 			case 'ppGlSh': popups.shortCodeRise(); break;
 			case 'ppGlDl': popups.downloadAlbum(); break;
 			case 'ppGlRm': popups.albumRemove(); break;
-			case 'ppGlAd': popups.albumAdd(); break;
-			case 'ppGlDc': popups.albumDec(); break;
+			case 'ppGlAd': popups.albumAdd(1); break;
+			case 'ppGlAd2': popups.albumAdd(2); break;
+			case 'ppGlAd3': popups.albumAdd(3); break;
+			case 'ppGlAd4': popups.albumAdd(4); break;
+			case 'ppGlDc': popups.albumDec(1); break;
+			case 'ppGlDc2': popups.albumDec(2); break;
+			case 'ppGlDc3': popups.albumDec(3); break;
+			case 'ppGlDc4': popups.albumDec(4); break;
 			case 'ppfSlAl': popups.selectAll(1); break;
 			case 'ppfSlAl2': popups.selectAll(2); break;
 			case 'ppfSlAl3': popups.selectAll(3); break;
@@ -121,7 +127,7 @@ popups = {
 		})
 		.fail(function(jqXHR, textStatus) {alert("Request failed: " + textStatus); });
 	},
-	albumAdd: function() {
+	albumAdd: function(pocketNo) {
 		this.close();
 		var _this = this;
 		$.ajax({
@@ -129,14 +135,14 @@ popups = {
 			url: 'http://'+config.baseUrl + '/album/add',
 			data: {
 				albumId: this.albumId,
-				items: Pocket.prepareToSend()
+				items: Pocket.prepareToSend(pocketNo)
 			},
 			cache: false
 		})
 		.done(function(response) {
 			if (response.error) alert(response.msg);
 			else {
-				Pocket.clear(1);
+				Pocket.clear(pocketNo);
 				_this.albumId = 0;
 				albumTreeTab.clickHandler({}, $(_this.element).parent());
 				// alert('Изображения успешно добавлены');
@@ -144,7 +150,7 @@ popups = {
 		})
 		.fail(function(jqXHR, textStatus) {alert("Request failed: " + textStatus); });
 	},
-	albumDec: function() {
+	albumDec: function(pocketNo) {
 		this.close();
 		var _this = this;
 		$.ajax({
@@ -152,14 +158,14 @@ popups = {
 			url: 'http://'+config.baseUrl + '/album/dec',
 			data: {
 				albumId: this.albumId,
-				items: Pocket.prepareToSend()
+				items: Pocket.prepareToSend(pocketNo)
 			},
 			cache: false
 		})
 		.done(function(response) {
 			if (response.error) alert(response.msg);
 			else {
-				Pocket.clear(1);
+				Pocket.clear(pocketNo);
 				_this.albumId = 0;
 				albumTreeTab.clickHandler({}, $(_this.element).parent());
 				// alert('Изображения убраны из альбома');
@@ -206,7 +212,7 @@ popups = {
 }
 
 authHandler = {
-	dependItems: ['.formCreateGalley', '#ppGlDc', '#ppGlAd', '#ppGlRm'],
+	dependItems: ['.formCreateGalley', '#ppGlDc', '#ppGlDc2', '#ppGlDc3', '#ppGlDc4', '#ppGlAd', '#ppGlAd2', '#ppGlAd3', '#ppGlAd4', '#ppGlRm'],
 	init: function() {
 		if (config.isGuest) this.hide();
 		// logout button bind

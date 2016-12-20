@@ -157,8 +157,14 @@ AppAsset::register($this);
 	<li id="ppGlSh">Шорт код и ссылка</li>
 	<li id="ppGlDl">Скачать альбом</li>
 	<li id="ppGlRm">Удалить альбом</li>
-	<li id="ppGlAd">Добавить в альбом</li>
-	<li id="ppGlDc">Удалить из альбома</li>
+	<li id="ppGlAd" class="topMargin">Добавить в альбом карман #1</li>
+	<li id="ppGlAd2">Добавить в альбом карман #2</li>
+	<li id="ppGlAd3">Добавить в альбом карман #3</li>
+	<li id="ppGlAd4">Добавить в альбом карман #4</li>
+	<li id="ppGlDc" class="topMargin">Удалить из альбома карман #1</li>
+	<li id="ppGlDc2">Удалить из альбома карман #2</li>
+	<li id="ppGlDc3">Удалить из альбома карман #3</li>
+	<li id="ppGlDc4">Удалить из альбома карман #4</li>
 </ul></div>
 <div id="folderPopupMenu" class="popupMenu"><ul>
 	<li id="ppfSlAl">Поместить все в карман #1</li>
