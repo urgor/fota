@@ -73,8 +73,7 @@ AppAsset::register($this);
 		<h5>Альбомы</h5>
 		<h6>Создать новый</h6>
 		<form class="formCreateGalley" action="/album/create" method="POST" autocomplete="off" onsubmit="return false;">
-			<input type="text" name="name" size="15" hint="название альбома" title="название нового альбома" class="hinting inpAlbumName" /><br />
-			<!-- <input id="buttonAlbumAdd" type="button" value="" title="Создать альбом" onclick="return formCreateGalley(); return false;" /> -->
+			<input type="text" name="name" size="15" hint="название альбома" title="название нового альбома" class="hinting inpAlbumName" />
 			<a class="btnCreateAlbum" title="Создать альбом из кармана #1" onclick="return albumTreeTab.createGalley(1); return false;">1</a>
 			<a class="btnCreateAlbum" title="Создать альбом из кармана #2" onclick="return albumTreeTab.createGalley(2); return false;">2</a>
 			<a class="btnCreateAlbum" title="Создать альбом из кармана #3" onclick="return albumTreeTab.createGalley(3); return false;">3</a>

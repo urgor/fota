@@ -114,11 +114,16 @@ label input.noBullet {opacity: 0; display: none;}
 #button_logout { border: 0; padding: 0; margin: 0; width: 25px; height: 20px; cursor: pointer;
 	background: url('/images/sprite.png') -205px 0px no-repeat; margin: 5px;
 }
+.formCreateGalley {
+	margin:2px 2px 20px 2px;
+}
 a.btnCreateAlbum {
 	display: inline-block;
-	padding: 3px 19px; margin: 0px 5px 20px 5px;
+	font-size: 11px;
+	padding: 0px 2px; margin: 0px 1px;
 	color: rgba(0,0,0,0.45); border-color: rgba(127,127,127,1);
 	border: 1px solid;
+	border-top: none;
 	text-decoration: none; /* убирать подчёркивание у ссылок */
 	user-select: none; /* убирать выделение текста */
 	outline: none; /* убирать контур в Mozilla */
@@ -131,8 +136,7 @@ a.btnCreateAlbum:active { /* при нажатии */
 	background: rgb(255,255,255);
 }
 .inpAlbumName {
-	width: 280px;
-	margin-bottom: 10px;
+	width: 234px;
 }
 
 /*pager*/
