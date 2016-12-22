@@ -52,18 +52,10 @@ AppAsset::register($this);
 	</div>
 	<div id="layoutSelect" style="display: none">
 		<h5>Опции</h5>
-		<label><input class="noBullet" type="radio" name="layout" value="vList">
-			<div class="boxButton" style="background: url('/images/sprite.png') 1px -80px;" title="Vertical list"></div></input>
-		</label>
-		<label><input class="noBullet" type="radio" name="layout" value="hList">
-			<div class="boxButton" style="background: url('/images/sprite.png') -20px -80px;" title="Horizontal list"></div></input>
-		</label>
-		<label><input class="noBullet" type="radio" name="layout" value="tile">
-			<div class="boxButton" style="background: url('/images/sprite.png') -60px -80px;" title="Tile"></div></input>
-		</label>
-		<label><input class="noBullet" type="radio" name="layout" value="single">
-			<div class="boxButton" style="background: url('/images/sprite.png') -40px -80px;" title="Single image"></div></input>
-		</label>
+		<label><input class="noBullet" type="radio" name="layout" value="vList"></input>Вертикальный список</label>
+		<label><input class="noBullet" type="radio" name="layout" value="hList"></input>Горизонтальный список</label>
+		<label><input class="noBullet" type="radio" name="layout" value="tile"></input>Плиткой</label>
+		<label><input class="noBullet" type="radio" name="layout" value="single"></input>Одно изображение</label>
 	</div>
 	<div id="userInfo" style="display: none">
 		<h5>Авторизация</h5>
