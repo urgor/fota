@@ -16,7 +16,7 @@ window.onload=function() {
 		layout.currentImage = ind;
 		layout.redrawMain();
 	});
-	$('#layoutSelect input[value=vList]').trigger('click');
+	$('#layoutSelect input[value=vList]').trigger('click'); // select default layout view
 
 	$('#folderTree').on('click', '.name', function(event) {folderTab.clickEvent(event, this);});
 	$('#folderTree').on('click', '.folderMenuButton', function(event) {popups.showMenu(event, this);});

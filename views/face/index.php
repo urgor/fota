@@ -41,11 +41,11 @@ AppAsset::register($this);
 <div id="navigation">
 	<div id="logo">&nbsp;</div>
 	<div id="toolbarBlock">
-		<div class="button_tree" href="#folderTree" title="(T)ree of folders"></div>
-		<div class="button_view" href="#layoutSelect" title="(O)ptions"></div>
-		<div class="button_user" href="#userInfo" title="User"></div>
-		<div class="button_albums" href="#albumTree" title="(A)lbums"></div>
-		<div class="button_help" href="#helpSide" title="(H)elp"></div>
+		<div id="btnTree"	class="toolbarItem" href="#folderTree"	 title="(T)ree of folders">Дерево каталогов</div>
+		<div id="btnAlbums"	class="toolbarItem" href="#albumTree"	 title="(A)lbums">Альбомы</div>
+		<div id="btnView"	class="toolbarItem" href="#layoutSelect" title="(O)ptions">Опции</div>
+		<div id="btnUser"	class="toolbarItem" href="#userInfo"	 title="User">Автоирзация</div>
+		<div id="btnHelp"	class="toolbarItem" href="#helpSide"	 title="(H)elp">Справка</div>
 	</div>
 	<div id="folderTree" style="display: none">
 		<h5>Каталоги</h5>

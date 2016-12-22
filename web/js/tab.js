@@ -1,7 +1,7 @@
 tabButton = {
 	currentId: false,
 	init: function() {
-		var defaultTabName = 'button_albums';
+		var defaultTabName = 'btnAlbums';
 
 		var r = /^#(album|folder)=(.+)$/;
 		if (r.test(window.location.hash)) {
@@ -12,7 +12,7 @@ tabButton = {
 					albumTreeTab.clickHandler('', $('.albumFolder[data-id="'+res[2]+'"]').get());
 				});
 			} else if (res[1] == 'folder') {
-				defaultTabName = 'button_tree';
+				defaultTabName = 'btnTree';
 				Observer.subscribe('foldersTabInited', function(){
 					folderTab.accessHash = res[2];
 					folderTab.clickEvent({}, $(folderTab.rootFolder).find('div.name'));
@@ -22,7 +22,7 @@ tabButton = {
 
 		// переключение табов
 		$('#toolbarBlock > div').on('click', function(event) {tabButton.clickEvent(event, this);});
-		this.clickEvent({}, $('#toolbarBlock > div.' + defaultTabName).get()); // show this tab by default
+		this.clickEvent({}, $('#' + defaultTabName).get()); // show this tab by default
 
 		albumTreeTab.init();
 		folderTab.init();

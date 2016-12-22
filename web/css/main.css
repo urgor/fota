@@ -109,11 +109,26 @@ input[type=radio]:checked + label:before {
 
 /* tollbar buttons */
 #toolbarBlock {margin: 15px 3px 5px 3px;}
-#toolbarBlock div.button_tree{background: url('/images/sprite.png') -20px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
+
+.toolbarItem {
+	border-color: gray;
+	border-style: solid;
+	border-width: 1px;
+	color: gray;
+	display: inline-block;
+	margin: 2px 5px;
+	padding: 3px 4px;
+	cursor: pointer;
+}
+.toolbarItem.active {
+	border-color: black;
+	color: black;
+}
+/*#toolbarBlock div.button_tree{background: url('/images/sprite.png') -20px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
 #toolbarBlock div.button_view{background: url('/images/sprite.png') 0px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
 #toolbarBlock div.button_user{background: url('/images/sprite.png') -40px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
 #toolbarBlock div.button_albums{background: url('/images/sprite.png') -60px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
-#toolbarBlock div.button_help{background: url('/images/sprite.png') -80px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
+#toolbarBlock div.button_help{background: url('/images/sprite.png') -80px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}*/
 #toolbarBlock div:hover{opacity: 0.8}
 #toolbarBlock .active{opacity: 1 !important;}
 /* other buttons */
