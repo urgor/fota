@@ -81,21 +81,30 @@ div.folderMenuButton {
 #toggleNavigation a{color: white; text-decoration: none;}
 
 /* radio button without bullet */
-label {cursor: pointer; width: 20px; height: 20px; }
-:checked + div {opacity: 1;}
-.boxButton {display: inline-block; width: 20px; height: 20px; margin: 2px; opacity: 0.45;}
-label input.noBullet {opacity: 0; display: none;}
+label {
+	cursor: pointer; display: block;
+	margin: 2px 1px 1px 14px;
+}
+input.noBullet {opacity: 0; display: none;}
+input[type=radio] + label:before {
+	content: "○ ";
+}
+input[type=radio]:checked + label:before {
+	content: "◉ ";
+}
+
 .hinting {background: rgba(0,0,0,0); border-bottom-color: #000; border-top-style: none; border-left-style: none; border-right-style: none; margin: 5px;}
 .hint {color: rgba(0,0,0,0.45);}
 .center {margin: 0 auto; text-align: center;}
 /* */
-#mainBlock {display: inline-block;
-			overflow-y: scroll;
-			overflow-x: hidden;
-			text-align: center;
-			position: absolute;
-			height: 100vh; width: 100vw; /*width: calc(100vw - 200px);*/
-			top: 0; left: 0px;
+#mainBlock {
+	display: inline-block;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	text-align: center;
+	position: absolute;
+	height: 100vh; width: 100vw; /*width: calc(100vw - 200px);*/
+	top: 0; left: 0px;
 }
 
 /* tollbar buttons */

@@ -52,10 +52,11 @@ AppAsset::register($this);
 	</div>
 	<div id="layoutSelect" style="display: none">
 		<h5>Опции</h5>
-		<label><input class="noBullet" type="radio" name="layout" value="vList"></input>Вертикальный список</label>
-		<label><input class="noBullet" type="radio" name="layout" value="hList"></input>Горизонтальный список</label>
-		<label><input class="noBullet" type="radio" name="layout" value="tile"></input>Плиткой</label>
-		<label><input class="noBullet" type="radio" name="layout" value="single"></input>Одно изображение</label>
+		<h6>Изображения</h6>
+		<input class="noBullet" type="radio" name="layout" value="vList" id="optViewVert" /><label for="optViewVert">Вертикальным списком</label>
+		<input class="noBullet" type="radio" name="layout" value="hList" id="optViewHor" /><label for="optViewHor">Горизонтальным списком</label>
+		<input class="noBullet" type="radio" name="layout" value="tile" id="optViewTile" /><label for="optViewTile">Плиткой</label>
+		<input class="noBullet" type="radio" name="layout" value="single" id="optViewSingle" /><label for="optViewSingle">Одно изображение</label>
 	</div>
 	<div id="userInfo" style="display: none">
 		<h5>Авторизация</h5>
