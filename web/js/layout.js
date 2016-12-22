@@ -162,9 +162,9 @@ function tileLayout() {
 			if (rowWidth > viewPortMaxWidth) {
 				divisor = 0;
 				for (var j = rowStartIdx; j <= i; j++) {
-					divisor += (xhrData.files[j]['info']['width'] + margins) * xhrData.files[rowStartIdx]['info']['height'] / xhrData.files[j]['info']['height'];
+					divisor += (xhrData.files[j]['info']['width'] + margins) / xhrData.files[j]['info']['height'];
 				}
-				rowHeight = viewPortMaxWidth * xhrData.files[rowStartIdx]['info']['height'] / divisor - margins;
+				rowHeight = viewPortMaxWidth / divisor - margins;
 				for (var j = rowStartIdx; j <= i; j++) {
 					this.sizes[j] = {
 						h: Math.floor(rowHeight),
