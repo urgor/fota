@@ -1,7 +1,21 @@
 body {margin: 0;padding: 0; backgrouund-color: white;}
 h5 {margin: 5px 5px; text-align: center; font-size: 12px; font-weight: bold;}
 h6 {margin: 3px 5px; font-size: 11px; font-weight: bold;}
-#logo {margin: 5px 5px 10px 5px; background: url('/images/sprite.png') no-repeat fixed 0px 0px; width: 155px; height: 55px;}
+.logoBlock {
+	margin: auto; padding: 10px 0 0 0;
+	width: 155px;
+}
+.logoSymbol {
+	font-size: 30px;
+	margin: 0; padding: 0;
+	vertical-align: top;
+	display: inline-block;
+}
+.logoName {
+	font-size: 43px; font-family: Arial;
+	margin: -2px 0 0 -3px; padding: 0;
+	display: inline-block;
+}
 /* */
 #navigationGhost {background-color: rgba(255,255,255,0);
 			  margin: 0; padding: 0; display: inline-block;

@@ -271,7 +271,7 @@ kbd = {
 	},
 
 	handler: function(event) {
-		console.log('key = ' + event.key+ ' keyCode = ' + event.keyCode + ' char = ' + event.char);
+		// console.log('key = ' + event.key+ ' keyCode = ' + event.keyCode + ' char = ' + event.char);
 		switch (event.keyCode) {
 			case 40:
 			case 39:

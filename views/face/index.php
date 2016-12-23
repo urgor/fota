@@ -39,7 +39,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div id="navigationGhost"></div>
 <div id="navigation">
-	<div id="logo">&nbsp;</div>
+	<div class="logoBlock"><span class="logoSymbol">░▒▓</span><span class="logoName">Fota</span></div>
 	<div id="toolbarBlock">
 		<div id="btnTree"	class="toolbarItem" href="#folderTree"	 title="(T)ree of folders">Дерево каталогов</div>
 		<div id="btnAlbums"	class="toolbarItem" href="#albumTree"	 title="(A)lbums">Альбомы</div>
