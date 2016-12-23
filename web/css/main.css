@@ -32,8 +32,8 @@ h6 {margin: 3px 5px; font-size: 11px; font-weight: bold;}
 
 #folderTree ul.container {padding: 0; margin: 0;}
 #folderTree li.root {margin-left: 0 !important; background: none !important}
-#folderTree li.node {list-style-type: none; margin-left: 15px; zoom: 1; position: relative; background-image: url('/images/i.png'); background-position: left top; background-repeat: repeat-y;}
-#folderTree li.last {background-image: url('/images/l.png'); background-position: left top; background-repeat: no-repeat;}
+#folderTree li.node {list-style-type: none; margin-left: 10px; zoom: 1; position: relative;}
+#folderTree li.last {}
 #folderTree div.icon {width: 15px; height: 15px; float: left; }
 #folderTree div.name {margin-left:15px; height: 15px; cursor: pointer; font-size: 12px; color: rgba(0,0,0,0.45);
 	white-space: nowrap; /* Запрещаем перенос строк */
@@ -41,10 +41,17 @@ h6 {margin: 3px 5px; font-size: 11px; font-weight: bold;}
 	text-overflow: ellipsis; /* Добавляем многоточие */
 }
 #folderTree div.name.selected {color: rgba(0,0,0,1);}
-#folderTree .icon.closed {width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-				background: url('/images/sprite.png') -160px 0px;}
-#folderTree .icon.opened {width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-			background: url('/images/sprite.png') -160px -15px;}
+#folderTree .icon {
+	margin: 0 0 0 15px;
+	width: 15px; height: 15px;
+	display: inline-block; opacity: 0.45;
+}
+#folderTree .icon.closed:before {
+	content: "⊞";
+}
+#folderTree .icon.opened:before {
+	content: "⊟";
+}
 
 /*album tree*/
 #albumTree .albumFolder {color: rgba(0,0,0,0.45); padding: 0px 0px 0px 14px; margin: 0px 0px 0px 0px; white-space: nowrap; word-wrap: initial; word-break: keep-all;}
@@ -67,7 +74,7 @@ div.albumMenuButton {
 }
 div.folderMenuButton {
 	background: url('/images/sprite.png') -230px -10px;
-	width: 10px; height: 10px; margin: 3px 3px 0 0;
+	width: 10px; height: 10px; margin: 2px 0 0 -3px;
 	display: inline;
 	position: absolute;
 	left: 3px;
