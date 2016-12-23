@@ -31,17 +31,7 @@ h6 {margin: 3px 5px; font-size: 11px; font-weight: bold;}
 				background: url('/images/sprite.png') -160px 0px;}
 #folderTree .icon.opened {width: 15px; height: 15px; display: inline-block; opacity: 0.45;
 			background: url('/images/sprite.png') -160px -15px;}
-/*#folderTree .folder {color: rgba(0,0,0,0.45); padding: 0px 0px 0px 14px; margin: 0px 0px 0px 0px; white-space: nowrap; word-wrap: initial; word-break: keep-all;}
-#folderTree .name {heigt: 15px; cursor: pointer;  font-size: 12px;  display: inline-block;}
-#folderTree .name.selected {color: rgba(0,0,0,1);}
-#folderTree .icon {margin-left: -10px}
-#folderTree .closed{width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-				background: url('/images/sprite.png') -160px 0px;}
-#folderTree .opened{width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-			background: url('/images/sprite.png') -160px -15px;}
-#folderTree .leaf{width: 15px; height: 15px; display: inline-block; opacity: 0.45;
-			background: url('/images/sprite.png') -160px -30px;}
-*/
+
 /*album tree*/
 #albumTree .albumFolder {color: rgba(0,0,0,0.45); padding: 0px 0px 0px 14px; margin: 0px 0px 0px 0px; white-space: nowrap; word-wrap: initial; word-break: keep-all;}
 #albumTree .name {cursor: default;  font-size: 12px;  display: inline-block;}
@@ -124,11 +114,7 @@ input[type=radio]:checked + label:before {
 	border-color: black;
 	color: black;
 }
-/*#toolbarBlock div.button_tree{background: url('/images/sprite.png') -20px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
-#toolbarBlock div.button_view{background: url('/images/sprite.png') 0px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
-#toolbarBlock div.button_user{background: url('/images/sprite.png') -40px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
-#toolbarBlock div.button_albums{background: url('/images/sprite.png') -60px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}
-#toolbarBlock div.button_help{background: url('/images/sprite.png') -80px -60px; opacity: 0.45; width: 20px; height: 20px; display: inline-block;}*/
+
 #toolbarBlock div:hover{opacity: 0.8}
 #toolbarBlock .active{opacity: 1 !important;}
 /* other buttons */

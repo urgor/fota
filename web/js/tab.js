@@ -219,6 +219,13 @@ albumTreeTab = {
 
 navigation = {
 	hiddable: true,
+	init: function() {
+		$('#navigationGhost').mouseenter(navigation.show); // over
+		$('#navigation').mouseleave(navigation.hide); // out	,
+	},
+	toggleHiddable: function() {
+		this.hiddable = !this.hiddable;
+	},
 	show: function() {
 		if(!navigation.hiddable) return;
 		$('#navigation').show();

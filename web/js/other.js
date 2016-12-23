@@ -271,7 +271,7 @@ kbd = {
 	},
 
 	handler: function(event) {
-		// console.log('key = ' + event.key+ ' keyCode = ' + event.keyCode + ' char = ' + event.char);
+		console.log('key = ' + event.key+ ' keyCode = ' + event.keyCode + ' char = ' + event.char);
 		switch (event.keyCode) {
 			case 40:
 			case 39:
@@ -316,6 +316,9 @@ kbd = {
 				return false;
 			case 52: // 4
 				Pocket.keyPress(4);
+				return false;
+			case 77: // m
+				navigation.toggleHiddable();
 				return false;
 		}
 	}

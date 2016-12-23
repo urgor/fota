@@ -40,8 +40,6 @@ window.onload=function() {
 	$('input, textarea').on('focus', kbd.unbindMe);
 	$('input, textarea').on('blur', kbd.bindMe);
 	$('#mainBlock').on('click', '.tileImage', function(event){layout.clickHandler(event, this)});
-	$('#navigationGhost').mouseenter(navigation.show); // over
-	$('#navigation').mouseleave(navigation.hide); // out
 
 	$('.hinting').each(function(){
 		var _this = $(this);
@@ -71,4 +69,5 @@ window.onload=function() {
 	information.init();
 	Pocket.init(LS.settings.pocketVisible);
 	Pager.init();
+	navigation.init();
 }
