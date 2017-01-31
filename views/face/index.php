@@ -44,7 +44,7 @@ AppAsset::register($this);
 		<div id="btnTree"	class="toolbarItem" href="#folderTree"	 title="(T)ree of folders">Дерево каталогов</div>
 		<div id="btnAlbums"	class="toolbarItem" href="#albumTree"	 title="(A)lbums">Альбомы</div>
 		<div id="btnView"	class="toolbarItem" href="#layoutSelect" title="(O)ptions">Опции</div>
-		<div id="btnUser"	class="toolbarItem" href="#userInfo"	 title="User">Автоирзация</div>
+		<div id="btnUser"	class="toolbarItem" href="#userInfo"	 title="User">Авторизация</div>
 		<div id="btnHelp"	class="toolbarItem" href="#helpSide"	 title="(H)elp">Справка</div>
 	</div>
 	<div id="folderTree" style="display: none">
