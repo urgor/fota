@@ -19,7 +19,13 @@ class ALbumFiles extends ActiveRecord {
 	public function getFileInfo() {
 		return $this->hasMany(FileInfo::className(), ['file_id' => 'file_id']);
 	}
+        
 	public function getFile() {
 		return $this->hasOne(Files::className(), ['file_id' => 'file_id']);
 	}
+        
+        public static function deleteFromAllAlbums($fileId)
+        {
+            static::deleteAll(['file_id' => $fileId]);
+        }
 }

@@ -33,7 +33,7 @@ return [
 				'quality' => 80,
 			]
 		],
-		'preventSccanDirBeginsFrom' => '_',
+		'preventScanDirBeginsFrom' => '_',
 		'sourceFolderPath' => '____',
 		'thumbRealPath' => '____/',
 		'thumbsPath' => '____/',

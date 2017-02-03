@@ -65,5 +65,15 @@ class FileSystem extends Model {
     public static function escapePath($path) {
         return preg_replace('/(["\' \(\);])/', '\\\$1', $path);
     }
+    
+    public static function rename($oldName, $newName)
+    {
+        return rename ($oldName, $newName);
+    }
+    
+    public static function unlink($fileName)
+    {
+        return unlink($fileName);
+    }
 
 }
