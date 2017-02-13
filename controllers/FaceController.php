@@ -10,16 +10,11 @@ class FaceController extends Controller {
 
 	public function actionIndex() {
 		\Yii::$app->response->format = \yii\web\Response::FORMAT_HTML;
-		try {
-			$root = Folders::find()->roots()->all();
-		} catch (\Exception $e) {
-			error_log('$e->getMessage() = '.var_export($e->getMessage(), true));
-
-		}
+		$root = Folders::getRoot();
 
 		return $this->renderPartial('index', [
 			'root' => $root[0],
-			'pageTitle' => 'boobs',
+			'pageTitle' => 'none',
 		]);
 	}
 }
