@@ -45,4 +45,14 @@ class Folders extends ActiveRecord {
 				having cnt = 0
 			')->all();
 	}
+    
+    public static function getById($folderId)
+    {
+        $folder = self::findOne($folderId);
+        if(empty($folder)) {
+            throw new Exception('There is no folder');
+        }
+        
+        return $folder;
+    }
 }

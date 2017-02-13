@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\db\ActiveRecord;
 use app\models\FileInfo;
 
@@ -15,6 +14,15 @@ class Files extends ActiveRecord {
     }
 
     public static function getByFolder($folderId) {
+        $files = static::find()->where(['folder_id' => $folderId])->orderBy('original_name')->all();
+        if (empty($files)) {
+            throw new \Exception('No such folder');
+        }
+
+        return $files;
+    }
+
+    public static function getByFolderSpecial($folderId) {
         $data = [];
         foreach (static::find()->where(['folder_id' => $folderId])->orderBy('original_name')->all() as $file) {
             $data[] = [
@@ -46,6 +54,16 @@ class Files extends ActiveRecord {
         return self::find()->where(['md_content' => $content])->one();
     }
 
+    public static function getbyId($fileId)
+    {
+        $file = self::findOne($fileId);
+        if (empty($file)) {
+            throw new Exception('There is no such file');
+        }
+
+        return $file;
+    }
+
     public static function updatePath(Files $file, $folderId, $path) {
         $file->folder_id = $folderId;
         $file->md_path = $path;
@@ -63,7 +81,4 @@ class Files extends ActiveRecord {
         $file->processed = $processed;
         return $file->save();
     }
-    
-    
-
 }

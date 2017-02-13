@@ -22,7 +22,7 @@ class AuthentificateController extends Controller {
 			return 'auth!';
 		}
 
-		$model = new \app\models\User(Yii::$app->request->post('email'));
+		$model = new User(Yii::$app->request->post('email'));
 		if ($model->check(Yii::$app->request->post('password')) ) {
 			\Yii::$app->user->login($model);
 			$resp['msg'] = $this->renderPartial('authentificated');

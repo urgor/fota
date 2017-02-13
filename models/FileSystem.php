@@ -7,17 +7,6 @@ use yii\base\Model;
 
 class FileSystem extends Model {
 
-    public static function readDir($dir) {
-        $d = dir(Yii::$app->params['sourceFolderPath'] . $dir);
-        while ($sub = $d->read()) {
-            if ('.' == $sub[0]) {
-                continue;
-            }
-            yield $sub;
-        }
-        $d->close();
-    }
-
     public static function isDir($path) {
         return is_dir($path);
     }
@@ -38,8 +27,54 @@ class FileSystem extends Model {
         return is_writable($path);
     }
 
+    public static function rmdir($dirname)
+    {
+        return rmdir($dirname);
+    }
+
+    public static function rename($oldName, $newName)
+    {
+        return rename ($oldName, $newName);
+    }
+
+    public static function unlink($fileName)
+    {
+        return unlink($fileName);
+    }
+
+    public static function mkdir($name, $mode, $recursive)
+    {
+        return mkdir($name, $mode, $recursive);
+    }
+
+    public static function symlink($target, $link)
+    {
+        return symlink($target, $link);
+    }
+
+    public static function chdir($dir)
+    {
+        return chdir($dir);
+    }
+
+    public static function filesize($file)
+    {
+        return filesize($file);
+    }
+
+    public static function readDir($dir) {
+        $d = dir(Yii::$app->params['sourceFolderPath'] . $dir);
+        while ($sub = $d->read()) {
+            if ('.' == $sub[0]) {
+                continue;
+            }
+            yield $sub;
+        }
+        $d->close();
+    }
+
     public static function buildPath($dirs) {
-        return Yii::$app->params['sourceFolderPath'] . implode(DIRECTORY_SEPARATOR, $dirs);
+        return Yii::$app->params['sourceFolderPath'] . self::implodeDirs($dirs);
     }
 
     public static function implodeDirs($dirs) {
@@ -57,23 +92,39 @@ class FileSystem extends Model {
     public static function delTree($dir) {
         $files = array_diff(scandir($dir), array('.', '..'));
         foreach ($files as $file) {
-            (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+            $name = self::implodeDirs([$dir, $file]);
+            (is_dir($name)) ? self::delTree($name) : self::unlink($name);
         }
-        return rmdir($dir);
+        return self::rmdir($dir);
     }
-    
+
     public static function escapePath($path) {
-        return preg_replace('/(["\' \(\);])/', '\\\$1', $path);
+        return preg_replace('/(["\'` \(\);])/', '\\\$1', $path);
     }
-    
-    public static function rename($oldName, $newName)
+
+    /**
+     * Replace dangerous symbols to create safe file name
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function normalizeFilename($name)
     {
-        return rename ($oldName, $newName);
+        return preg_replace('/[\\`:\?\*\/]+/', '_', $name);
     }
-    
-    public static function unlink($fileName)
+
+    /**
+     * Create unique temporary directory and return its name
+     *
+     * @param string $name
+     * @return string
+     */
+    public static function createTemporaryDir($name)
     {
-        return unlink($fileName);
+		$contentDir = Yii::$app->params['temporaryDirPrefix'] . mt_rand(1000, 9999999);
+		self::mkdir(self::implodeDirs([$contentDir, $name]), 0777, true);
+
+        return $contentDir;
     }
 
 }

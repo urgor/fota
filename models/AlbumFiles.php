@@ -5,45 +5,47 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 
-class ALbumFiles extends ActiveRecord 
+class ALbumFiles extends ActiveRecord
 {
 
     static $tableName = 'album_files';
     static $primaryKey = 'album_files_id';
 
-    public function defaultScope() 
+    public function defaultScope()
     {
         return array(
             'order' => 'file_id ASC',
         );
     }
 
-    public function getFileInfo() 
+    public function getFileInfo()
     {
         return $this->hasMany(FileInfo::className(), ['file_id' => 'file_id']);
     }
 
-    public function getFile() 
+    public function getFile()
     {
         return $this->hasOne(Files::className(), ['file_id' => 'file_id']);
     }
 
-    public static function deleteFromAllAlbums($fileId) 
+    public static function deleteFromAllAlbums($fileId)
     {
         static::deleteAll(['file_id' => $fileId]);
     }
 
-    public static function deleteByAlbum($albumId) 
+    public static function deleteByAlbum($albumId)
     {
         AlbumFiles::deleteAll(['album_id' => $albumId]);
     }
 
-    public static function getByAlbum($albumId) 
+    public static function getByAlbum($albumId)
     {
+        $ret = [];
         foreach (self::find()->where(['album_id' => $albumId])->all() as $albumFile) {
-            $file = $albumFile->getFile()->asArray()->one();
-            yield $file;
+            $ret[] = $albumFile->getFile()->asArray()->one();
         }
+
+        return $ret;
     }
 
     /**
@@ -61,10 +63,10 @@ class ALbumFiles extends ActiveRecord
         if (!$albumFiles->save()) {
             throw new \Exception("Error adding images", 1);
         }
-        
+
         return $albumFiles;
     }
-    
+
     public static function deleteFilesFromAlbum($albumId, $items)
     {
         self::deleteAll(['and', ['album_id' => $albumId], ['file_id' => $items]]);

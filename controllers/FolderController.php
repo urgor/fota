@@ -30,18 +30,18 @@ class FolderController extends Controller {
 					$folder = $this->getFolderByAccesHash($accessHash);
 					$data['folders'] = [self::mapFields($folder)];
 					$data['folders'][0]['folders'] = $this->getSubFolders($folder);
-					$data['folders'][0]['files'] = Files::getByFolder($folder->folder_id);
+					$data['folders'][0]['files'] = Files::getByFolderSpecial($folder->folder_id);
 
 				} elseif ($this->checkAccessByHash($parent, $accessHash)) {
 					$data['folders'] = $this->getSubFolders($parent);
-					$data['files'] = Files::getByFolder($folderId);
+					$data['files'] = Files::getByFolderSpecial($folderId);
 				} else {
 					throw new \Exception("Permission denied", 1);
 
 				}
 			} else {
 				$data['folders'] = $this->getSubFolders($parent);
-				$data['files'] = Files::getByFolder($folderId);
+				$data['files'] = Files::getByFolderSpecial($folderId);
 			}
 
 		} catch (\Exception $e) {

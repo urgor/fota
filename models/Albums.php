@@ -11,7 +11,8 @@ class Albums extends ActiveRecord {
 
 	static $primaryKey = 'album_id';
 
-	public function defaultScope() {
+	public function defaultScope() 
+    {
 		return array(
 			'order' => 'name ASC',
 		);

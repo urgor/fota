@@ -37,6 +37,7 @@ return [
 		'sourceFolderPath' => '____',
 		'thumbRealPath' => '____/',
 		'thumbsPath' => '____/',
+        'temporaryFilePath' => '/tmp/fotagallery',
 	],
 
 ];
