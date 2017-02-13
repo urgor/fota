@@ -7,52 +7,41 @@ use yii\web\Controller;
 use app\models\Folders;
 use app\models\Files;
 use app\models\FolderProperty;
+use app\managers\Folder as FolderManager;
+use app\managers\FolderProperty as FolderPropertyManager;
 
 
 class FolderController extends Controller {
 
-	public function actionIndex() { // $folderId = false
+	public function actionIndex() {
 
 		$folderId = Yii::$app->request->get('id');
 		$accessHash = Yii::$app->request->get('accessHash');
-
+        $parent = Folders::getById($folderId);
 		$data = [];
 
-		try {
-			// if (Yii::$app->user->isGuest) throw new \Exception("Need login", 1);
-			$parent = Folders::findOne(['folder_id' => $folderId]);
-			if (is_null($parent)) throw new \Exception("Folder not found", 1);
+        if (Yii::$app->user->isGuest) {
+            if (empty($accessHash)) {
+                throw new \Exception("Need login", 1);
+            } elseif ($parent->isRoot()) {
+                $folder = FolderManager::getFolderByAccesHash($accessHash);
+                $data['folders'] = [self::mapFields($folder)];
+                $data['folders'][0]['folders'] = array_map('self::mapFields', FolderManager::getSubFolders($folder));
+                $data['folders'][0]['files'] = Files::getByFolderSpecial($folder->folder_id);
 
-			if (Yii::$app->user->isGuest) {
-				if (empty($accessHash)) throw new \Exception("Need login", 1);
+            } elseif (FolderManager::checkAccessByHash($parent, $accessHash)) {
+                $data['folders'] = array_map('self::mapFields', FolderManager::getSubFolders($parent));
+                $data['files'] = Files::getByFolderSpecial($folderId);
+            } else {
+                throw new \Exception("Permission denied", 1);
 
-				elseif ($parent->isRoot()) {
-					$folder = $this->getFolderByAccesHash($accessHash);
-					$data['folders'] = [self::mapFields($folder)];
-					$data['folders'][0]['folders'] = $this->getSubFolders($folder);
-					$data['folders'][0]['files'] = Files::getByFolderSpecial($folder->folder_id);
+            }
+        } else {
+            $data['folders'] = array_map('self::mapFields', FolderManager::getSubFolders($parent));
+            $data['files'] = Files::getByFolderSpecial($folderId);
+        }
 
-				} elseif ($this->checkAccessByHash($parent, $accessHash)) {
-					$data['folders'] = $this->getSubFolders($parent);
-					$data['files'] = Files::getByFolderSpecial($folderId);
-				} else {
-					throw new \Exception("Permission denied", 1);
-
-				}
-			} else {
-				$data['folders'] = $this->getSubFolders($parent);
-				$data['files'] = Files::getByFolderSpecial($folderId);
-			}
-
-		} catch (\Exception $e) {
-			$data['error'] = true;
-			$data['msg'] = $e->getMessage();
-		}
 		return $data;
-	}
-
-	private function getSubFolders($parent) {
-		return array_map('\app\controllers\FolderController::mapFields', $parent->children(1)->orderBy('name')->all());
 	}
 
 	private static function mapFields($folder) {
@@ -63,27 +52,11 @@ class FolderController extends Controller {
 		];
 	}
 
-	private function getFolderByAccesHash($accessHash) {
-		$prop = FolderProperty::find()->where(['access_hash' => $accessHash])->one();
-		if (empty($prop)) throw new \Exception("Folder not found", 1);
-		$folder = Folders::findOne($prop->folder_id);
-
-		return $folder;
-	}
-
-	private function checkAccessByHash($parent, $accessHash) {
-		$hashedFolder = $this->getFolderByAccesHash($accessHash);
-		return $parent->isChildOf($hashedFolder) || $parent->folder_id == $hashedFolder->folder_id;
-	}
-
 	public function actionAccessLink() {
-		$folderId = (int)Yii::$app->request->get('id');
-		$prop = FolderProperty::findOne($folderId);
+		$folderId = (int) Yii::$app->request->get('id');
+		$prop = FolderPropertyManager::getByFolderId($folderId);
 		if (empty($prop)) {
-			$prop = new FolderProperty();
-			$prop->folder_id = $folderId;
-			$prop->access_hash = md5(microtime() . '_' . $folderId);
-			$prop->save();
+			$prop = FolderPropertyManager::createAccessHash($folderId, md5(microtime() . '_' . $folderId));
 		}
 
 		return ['data' => $prop->access_hash];
