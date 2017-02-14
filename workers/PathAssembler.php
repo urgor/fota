@@ -1,9 +1,9 @@
 <?php
 
-namespace app\worker;
+namespace app\workers;
 
 use app\models\Files;
-use app\models\Folders;
+use app\managers\Folder as FolderManager;
 use app\models\FileSystem as FS;
 
 class PathAssembler
@@ -42,7 +42,7 @@ class PathAssembler
     private static function createFullPath($folderId, &$fullPathes)
     {
 		if (!array_key_exists($folderId, $fullPathes)) {
-			$folder = Folders::getById($folderId);
+			$folder = FolderManager::getById($folderId);
 			if (!$folder->isRoot()) {
                 $fullPathes[$folderId] = [$folder->name];
             }

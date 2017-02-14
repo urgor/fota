@@ -1,8 +1,8 @@
 <?php
 
-namespace app\worker;
+namespace app\workers;
 
-use app\worker\PathAssembler;
+use app\workers\PathAssembler;
 
 interface ArchiveInterface
 {
@@ -11,6 +11,6 @@ interface ArchiveInterface
     public function getFilename();
     public function getFullPathFileName();
     public function clean();
-    
-    
+
+
 }

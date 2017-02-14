@@ -1,10 +1,10 @@
 <?php
 
-namespace app\worker;
+namespace app\workers;
 
 use Yii;
 use app\models\FileSystem as FS;
-use app\worker\PathAssembler;
+use app\workers\PathAssembler;
 
 class ArchiveZip implements ArchiveInterface
 {

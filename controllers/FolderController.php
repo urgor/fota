@@ -4,9 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Folders;
 use app\models\Files;
-use app\models\FolderProperty;
 use app\managers\Folder as FolderManager;
 use app\managers\FolderProperty as FolderPropertyManager;
 
@@ -17,7 +15,7 @@ class FolderController extends Controller {
 
 		$folderId = Yii::$app->request->get('id');
 		$accessHash = Yii::$app->request->get('accessHash');
-        $parent = Folders::getById($folderId);
+        $parent = FolderManager::getById($folderId);
 		$data = [];
 
         if (Yii::$app->user->isGuest) {

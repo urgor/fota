@@ -2,18 +2,21 @@
 
 namespace app\commands;
 
-use Yii;
 use yii\console\Controller;
 use app\models\Files;
 use app\models\FileSystem as FS;
 use app\models\AlbumFiles;
 use app\models\RuntimeParameters;
-use app\worker\Scaner;
+use app\workers\Scaner;
+use app\managers\Folder as FolderManager;
 
+/**
+ * Run scan and indexing of images
+ */
 class ScanController extends Controller {
 
     /**
-     * @var bool Force update exif and other file info at any found file
+     * @var bool Force update EXIF and other file info at any found file
      */
     public $updateInfo = false;
     /**
@@ -27,12 +30,12 @@ class ScanController extends Controller {
 
     public function actionIndex() {
         \app\models\Files::updateAll(['processed' => 0], []);
-        $root = \app\models\Folders::findOne(['level' => 0]);
+        $root = FolderManager::getRoot();
         if (is_null($root)) {
             echo "There is no root directory in database/. You should use `init` command before scan/\n";
             return Controller::EXIT_CODE_ERROR;
         }
-        
+
         $params = new RuntimeParameters([
             'updateInfo' => $this->updateInfo,
             'rethumb' => $this->rethumb,
@@ -59,7 +62,7 @@ class ScanController extends Controller {
             if (!FS::unlink($fileName)) {
                 echo 'cant delete thumb.';
             }
-                
+
             AlbumFiles::deleteFromAllAlbums($file->file_id);
             $file->delete();
             echo $file->file_id . ' deleted';
@@ -67,10 +70,10 @@ class ScanController extends Controller {
             echo PHP_EOL;
         }
     }
-    
+
     private function deleteEmptyFolders()
     {
-        while ($folders = \app\models\Folders::findEmpty()) {
+        while ($folders = FolderManager::findEmpty()) {
             foreach ($folders as $folder) {
                 echo "Delete empty folder " . $folder->name . PHP_EOL;
                 $folder->delete();

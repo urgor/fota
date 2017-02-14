@@ -5,7 +5,11 @@ namespace app\commands;
 use Yii;
 use yii\console\Controller;
 use app\models\FileSystem as FS;
+use app\managers\Folder as FolderManager;
 
+/**
+ * Initialize Fota environment
+ */
 class InitController extends Controller {
 
     public function actionIndex() {
@@ -18,16 +22,14 @@ class InitController extends Controller {
             }
         }
 
-        $root = \app\models\Folders::findOne(['level' => 0]);
+        $root = FolderManager::getRoot();
         if (is_null($root)) {
-            $root = new \app\models\Folders;
-            $root->name = Yii::$app->params['rootFolderName'];
-            $root->makeRoot();
+            FolderMAnager::createRoot(Yii::$app->params['rootFolderName']);
         } else {
             echo "There is root directory exists in database! May be You want use `clear` command?\n";
             return 1;
         }
-        
+
         echo "Done.\n";
     }
 }

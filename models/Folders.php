@@ -36,28 +36,4 @@ class Folders extends ActiveRecord {
 		return new FolderQuery(get_called_class());
 	}
 
-	public static function findEmpty() {
-		return static::findBySql('select f.*, count(file_id) cnt
-				from `' . self::tableName() . '` f
-					left join `files` using (folder_id)
-				where `left`+1 = `right`
-				group by f.folder_id
-				having cnt = 0
-			')->all();
-	}
-
-    public static function getById($folderId)
-    {
-        $folder = self::findOne($folderId);
-        if(empty($folder)) {
-            throw new Exception('There is no folder');
-        }
-
-        return $folder;
-    }
-
-    public static function getRoot()
-    {
-        return self::find()->roots()->all();
-    }
 }

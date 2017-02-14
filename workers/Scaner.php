@@ -8,17 +8,17 @@ use app\models\Files;
 use app\models\Thumbnail as Thumb;
 use app\models\FileInfo;
 
-class Scaner 
+class Scaner
 {
     protected $params;
-    
+
     public function __construct(\app\models\RuntimeParameters $properties) {
         $this->params = $properties;
     }
 
     /**
      * Make main scan
-     * 
+     *
      * @param  str $dir Relative directory path
      * @param  \app\models\Folders $parentFolder [description]
      * @return [type]                           [description]
@@ -26,8 +26,7 @@ class Scaner
     public function scanMain(string $dir, \app\models\Folders $parentFolder) {
         $entitiesHere = 0;
         foreach(FS::readDir($dir) as $entry) {
-
-            if (Yii::$app->params['preventScanDirBeginsFrom'] == $entry[1]){
+            if (Yii::$app->params['preventScanDirBeginsFrom'] == $entry[0]) {
                 continue;
             }
 
@@ -61,10 +60,10 @@ class Scaner
             $folder->delete();
             echo "Folder $entry deleted\n";
         }
-        
+
         return $subItems;
     }
-    
+
     private function processFile(string $dir, string $entry, \app\models\Folders $parentFolder)
     {
         $path = FS::buildPath([$dir, $entry]);
@@ -108,7 +107,7 @@ class Scaner
         }
         return 1;
     }
-    
+
     protected function create($parentFolder, $entry, $path, $mdPath, $mdContent)
     {
         if (0 != Thumb::create($path, FS::buildThumbPathFile($mdPath))) {
@@ -119,7 +118,7 @@ class Scaner
         FileInfo::fill($file->file_id, $path, FS::buildThumbPathFile($mdPath));
         echo "File $entry Saved new\n";
     }
-    
+
     protected function updateContent($findPath, $path, $mdContent, $mdPath, $entry)
     {
         Files::updateContent($findPath, $mdContent);
@@ -129,7 +128,7 @@ class Scaner
         }
         echo "File $entry Updated\n";
     }
-    
+
     protected function updateProcessed($findContent, $path, $mdPath)
     {
         Files::updateProcessed($findContent, 1);
@@ -141,7 +140,7 @@ class Scaner
         }
         echo "\r";
     }
-    
+
     protected function updatePath($findContent, $parentFolder, $entry, $path, $mdPath)
     {
         $file = FS::buildThumbPathFile($findContent->md_path);
@@ -152,7 +151,7 @@ class Scaner
         }
 
         Files::updatePath($findContent, $parentFolder->getAttribute('folder_id'), $mdPath);
-      
+
         if ($this->params['rethumb']) {
             Thumb::create($path, FS::buildThumbPathFile($mdPath));
         }
