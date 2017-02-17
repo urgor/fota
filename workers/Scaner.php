@@ -3,7 +3,7 @@
 namespace app\workers;
 
 use Yii;
-use app\models\Files;
+use app\managers\File as FileManager;
 use app\models\Thumbnail as Thumb;
 use app\models\FileInfo;
 use app\workers\FileSystem as FS;
@@ -91,8 +91,8 @@ class Scaner
             return 0;
         }
 
-        $findPath = Files::findOneByPath($mdPath);
-        $findContent = Files::findOneByContent($mdContent);
+        $findPath = FileManager::findOneByPath($mdPath);
+        $findContent = FileManager::findOneByContent($mdContent);
 
         switch (((is_null($findPath) ? 0 : 1) << 1 ) | (is_null($findContent) ? 0 : 1)) {
             case 0b00:
@@ -121,14 +121,14 @@ class Scaner
             echo "File $entry Cant create thumbnail; skip it!!!\n";
             return 0;
         }
-        $file = Files::create($parentFolder->getAttribute('folder_id'), $entry, $mdPath, $mdContent);
+        $file = FileManager::create($parentFolder->getAttribute('folder_id'), $entry, $mdPath, $mdContent);
         FileInfo::fill($file->file_id, $path, FS::buildThumbPathFile($mdPath));
         echo "File $entry Saved new\n";
     }
 
     protected function updateContent($findPath, $path, $mdContent, $mdPath, $entry)
     {
-        Files::updateContent($findPath, $mdContent);
+        FileManager::updateContent($findPath, $mdContent);
         Thumb::create($path, FS::buildThumbPathFile($mdPath));
         if ($this->params['updateInfo']) {
             FileInfo::fill($findPath->file_id, $path, FS::buildThumbPathFile($mdPath));
@@ -138,7 +138,7 @@ class Scaner
 
     protected function updateProcessed($findContent, $path, $mdPath)
     {
-        Files::updateProcessed($findContent, 1);
+        FileManager::updateProcessed($findContent, 1);
         if ($this->params['rethumb']) {
             Thumb::create($path, FS::buildThumbPathFile($mdPath));
         }
@@ -157,7 +157,7 @@ class Scaner
             Thumb::create($path, FS::buildThumbPathFile($mdPath));
         }
 
-        Files::updatePath($findContent, $parentFolder->getAttribute('folder_id'), $mdPath);
+        FileManager::updatePath($findContent, $parentFolder->getAttribute('folder_id'), $mdPath);
 
         if ($this->params['rethumb']) {
             Thumb::create($path, FS::buildThumbPathFile($mdPath));

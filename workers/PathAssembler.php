@@ -2,7 +2,7 @@
 
 namespace app\workers;
 
-use app\models\Files;
+use app\managers\File as FileManager;
 use app\managers\Folder as FolderManager;
 use app\models\FileSystem as FS;
 
@@ -31,7 +31,7 @@ class PathAssembler
     public function prepareFiles()
     {
 		foreach ($this->files as $file) {
-			$this->fileInfo = Files::getById($file['file_id']);
+			$this->fileInfo = FileManager::getById($file['file_id']);
 			self::createFullPath($this->fileInfo->folder_id, $this->fullPathes);
 			$this->filesList[] = $this->fullPathes[$this->fileInfo->folder_id].$this->fileInfo->original_name;
 

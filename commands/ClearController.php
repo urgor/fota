@@ -6,10 +6,10 @@ use yii\console\Controller;
 use app\workers\FileSystem as FS;
 use app\models\Folders;
 use app\models\FolderProperty;
-use app\models\Files;
 use app\models\FileInfo;
 use app\models\Albums;
 use app\models\AlbumFiles;
+use app\managers\File as FileManager;
 
 /**
  * Delete all thumb files and database records
@@ -45,7 +45,7 @@ class ClearController extends Controller {
 
         echo "Delete all files\n";
         if ($this->realy_clear) {
-            Files::deleteAll();
+            FileManager::deleteAll();
         }
 
         echo "Delete all file info\n";

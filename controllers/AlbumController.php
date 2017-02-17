@@ -4,9 +4,9 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\FileInfo;
-use app\models\Files;
 use app\models\Albums;
 use app\models\AlbumFiles;
+use app\managers\File as FileManager;
 
 class AlbumController extends Controller {
 
@@ -28,13 +28,13 @@ class AlbumController extends Controller {
         if (empty($request->post('name')) || empty($request->post('items'))) {
             throw new \Exception("Empty data", 1);
         }
-        
+
         $album = Albums::create(filter_var($request->post('name'), FILTER_SANITIZE_SPECIAL_CHARS));
 
         foreach ($request->post('items') as $item) {
-            AlbumFiles::addFileToAlbum($album->album_id, $item);
+            FileManager::addFileToAlbum($album->album_id, $item);
         }
-        
+
 		return $this->_data;
 	}
 
@@ -63,7 +63,7 @@ class AlbumController extends Controller {
             'name' => $album->name,
         ];
 
-        AlbumFiles::getByAlbum($id);
+        FileManager::getByAlbum($id);
 
         foreach (AlbumFiles::getByAlbum($id) as $file) {
             $this->_data['files'][] = [

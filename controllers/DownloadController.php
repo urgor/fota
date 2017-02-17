@@ -5,13 +5,13 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\manager\Folder as FolderManager;
-use app\models\Files;
 use app\models\Albums;
 use app\models\AlbumFiles;
 use app\workers\FileSystem as FS;
 use app\workers\ArchiveZip;
 use app\workers\PathAssembler;
 use app\workers\ArchiveInterface;
+use app\managers\File as FileManager;
 
 class DownloadController extends Controller {
 
@@ -33,7 +33,7 @@ class DownloadController extends Controller {
     {
         $folderId = (int)Yii::$app->request->get('id');
         $folder = FolderManager::getById($folderId);
-        $pathAssembler = new PathAssembler(Files::getByFolder($folderId));
+        $pathAssembler = new PathAssembler(FileManager::getByFolder($folderId));
 
         $archive = new ArchiveZip;
         $archive->pack($folder->name, $pathAssembler);

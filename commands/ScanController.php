@@ -3,12 +3,12 @@
 namespace app\commands;
 
 use yii\console\Controller;
-use app\models\Files;
 use app\workers\FileSystem as FS;
+use app\workers\Scaner;
 use app\models\AlbumFiles;
 use app\models\RuntimeParameters;
-use app\workers\Scaner;
 use app\managers\Folder as FolderManager;
+use app\managers\File as FileManager;
 
 /**
  * Run scan and indexing of images
@@ -29,7 +29,7 @@ class ScanController extends Controller {
     }
 
     public function actionIndex() {
-        \app\models\Files::updateAll(['processed' => 0], []);
+        FileManager::resetProcessed();
         $root = FolderManager::getRoot();
         if (is_null($root)) {
             echo "There is no root directory in database/. You should use `init` command before scan/\n";
@@ -50,7 +50,7 @@ class ScanController extends Controller {
     }
 
     private function deleteUnprocessedFiles() {
-        $rmFiles = Files::findAll(['processed' => 0]);
+        $rmFiles = FileManager::getUnprocessed();
         if (0 === count($rmFiles)) {
             echo "No thumbs to delete.\n";
             return;

@@ -4,10 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Files;
 use app\managers\Folder as FolderManager;
 use app\managers\FolderProperty as FolderPropertyManager;
-
+use app\managers\File as FileManager;
 
 class FolderController extends Controller {
 
@@ -25,18 +24,18 @@ class FolderController extends Controller {
                 $folder = FolderManager::getFolderByAccesHash($accessHash);
                 $data['folders'] = [self::mapFields($folder)];
                 $data['folders'][0]['folders'] = array_map('self::mapFields', FolderManager::getSubFolders($folder));
-                $data['folders'][0]['files'] = Files::getByFolderSpecial($folder->folder_id);
+                $data['folders'][0]['files'] = FileManager::getByFolderSpecial($folder->folder_id);
 
             } elseif (FolderManager::checkAccessByHash($parent, $accessHash)) {
                 $data['folders'] = array_map('self::mapFields', FolderManager::getSubFolders($parent));
-                $data['files'] = Files::getByFolderSpecial($folderId);
+                $data['files'] = FileManager::getByFolderSpecial($folderId);
             } else {
                 throw new \Exception("Permission denied", 1);
 
             }
         } else {
             $data['folders'] = array_map('self::mapFields', FolderManager::getSubFolders($parent));
-            $data['files'] = Files::getByFolderSpecial($folderId);
+            $data['files'] = FileManager::getByFolderSpecial($folderId);
         }
 
 		return $data;
