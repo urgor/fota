@@ -4,7 +4,7 @@ namespace app\commands;
 
 use yii\console\Controller;
 use app\models\Files;
-use app\models\FileSystem as FS;
+use app\workers\FileSystem as FS;
 use app\models\AlbumFiles;
 use app\models\RuntimeParameters;
 use app\workers\Scaner;

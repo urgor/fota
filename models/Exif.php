@@ -3,20 +3,23 @@
 namespace app\models;
 
 use yii\base\Model;
-use app\models\FileSystem as FS;
+use app\workers\FileSystem as FS;
+use app\workers\OperationSystem;
 
 class Exif extends Model {
 
     /**
-     * 
+     *
      * @param type $path Path to original file
      * @param type $thumbnail Path to thumbnail
      * @return array
      */
     public static function getInfo($path, $thumbnail) {
-        /* @var $data string */
-        $data = \shell_exec('exiftool -j ' . FS::escapePath($path));
-        if (!$data) {
+        $os = new OperationSystem;
+        $os->execute('exiftool -j %s', [$path]);
+        $data = $os->getStringOutput();
+
+        if (0 != $os->getReturnVar() || empty($data)) {
             throw new \Exception('No exif');
         }
         $data = json_decode($data, true);
@@ -31,7 +34,7 @@ class Exif extends Model {
         } elseif (!empty($data['FileModifyDate'])) {
             $timestamp = strtotime($data['FileModifyDate']);
         }
-        
+
         $info = [];
         if (!empty($timestamp)) {
             $info['exif_create_timestamp'] = $timestamp;
@@ -45,7 +48,7 @@ class Exif extends Model {
         }
 
         list($info['width'], $info['height']) = getimagesize($thumbnail);
-        
+
         return [$data, $info];
     }
 

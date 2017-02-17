@@ -1,11 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\workers;
 
 use Yii;
-use yii\base\Model;
 
-class FileSystem extends Model {
+class FileSystem  {
 
     public static function isDir($path) {
         return is_dir($path);
@@ -96,10 +95,6 @@ class FileSystem extends Model {
             (is_dir($name)) ? self::delTree($name) : self::unlink($name);
         }
         return self::rmdir($dir);
-    }
-
-    public static function escapePath($path) {
-        return preg_replace('/(["\'` \(\);])/', '\\\$1', $path);
     }
 
     /**

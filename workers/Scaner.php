@@ -1,19 +1,29 @@
 <?php
 
-namespace app\worker;
+namespace app\workers;
 
 use Yii;
-use app\models\FileSystem as FS;
 use app\models\Files;
 use app\models\Thumbnail as Thumb;
 use app\models\FileInfo;
+use app\workers\FileSystem as FS;
+use app\workers\OperationSystem;
 
 class Scaner
 {
+    /**
+     * @var \app\models\RuntimeParameters
+     */
     protected $params;
+
+    /**
+     * @var \app\workers\OperationSystem
+     */
+    protected $os;
 
     public function __construct(\app\models\RuntimeParameters $properties) {
         $this->params = $properties;
+        $this->os = new OperationSystem;
     }
 
     /**
@@ -69,14 +79,11 @@ class Scaner
         $path = FS::buildPath([$dir, $entry]);
         $mdPath = md5($dir . DIRECTORY_SEPARATOR . $entry);
 
-        // $oldMdContent = md5(file_get_contents($path));
-        $output = [];
-        $returnVar = 0;
-        exec('md5sum --binary ' . FS::escapePath($path), $output, $returnVar);
-        if (0 != $returnVar) {
+        $this->os->execute('md5sum --binary %s', [$path]);
+        if (0 != $this->os->getReturnVar()) {
             throw new \Exception('Error calculating md5 sum', 1);
         }
-        $mdContent = substr($output[0], 0, 32);
+        $mdContent = substr($this->os->getArrayOutput()[0], 0, 32);
 
         $ext = pathinfo($entry, PATHINFO_EXTENSION);
         if (!in_array(strtolower($ext), ['jpg', 'tiff', 'tif', 'png']))

@@ -4,7 +4,7 @@ namespace app\commands;
 
 use Yii;
 use yii\console\Controller;
-use app\models\FileSystem as FS;
+use app\workers\FileSystem as FS;
 use app\managers\Folder as FolderManager;
 
 /**

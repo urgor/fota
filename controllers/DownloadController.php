@@ -8,7 +8,7 @@ use app\manager\Folder as FolderManager;
 use app\models\Files;
 use app\models\Albums;
 use app\models\AlbumFiles;
-use app\models\FileSystem as FS;
+use app\workers\FileSystem as FS;
 use app\workers\ArchiveZip;
 use app\workers\PathAssembler;
 use app\workers\ArchiveInterface;

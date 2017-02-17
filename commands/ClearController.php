@@ -3,7 +3,7 @@
 namespace app\commands;
 
 use yii\console\Controller;
-use app\models\FileSystem as FS;
+use app\workers\FileSystem as FS;
 use app\models\Folders;
 use app\models\FolderProperty;
 use app\models\Files;
@@ -32,27 +32,27 @@ class ClearController extends Controller {
                 }
             }
         }
-        
+
         echo "Delete all folders\n";
         if ($this->realy_clear) {
             Folders::deleteAll();
         }
-        
+
         echo "Delete all folder properties\n";
         if ($this->realy_clear) {
             FolderProperty::deleteAll();
         }
-        
+
         echo "Delete all files\n";
         if ($this->realy_clear) {
             Files::deleteAll();
         }
-        
+
         echo "Delete all file info\n";
         if ($this->realy_clear) {
             FileInfo::deleteAll();
         }
-        
+
         echo "Delete all albums\n";
         if ($this->realy_clear) {
             AlbumFiles::deleteAll();
