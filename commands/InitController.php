@@ -13,6 +13,8 @@ use app\managers\Folder as FolderManager;
 class InitController extends Controller {
 
     public function actionIndex() {
+        FS::symlink(Yii::$app->params['thumbRealPath'], trim(FS::implodeDirs(['web', Yii::$app->params['thumbsPath']]), '/'));
+
         foreach (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'] as $l) {
             $path = FS::buildThumbPath($l);
             if (!FS::isFileExists($path)) {

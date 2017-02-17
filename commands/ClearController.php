@@ -2,6 +2,7 @@
 
 namespace app\commands;
 
+use Yii;
 use yii\console\Controller;
 use app\workers\FileSystem as FS;
 use app\models\Folders;
@@ -16,13 +17,14 @@ use app\managers\File as FileManager;
  */
 class ClearController extends Controller {
 
-    public $realy_clear = false;
+    public $realyClear = false;
 
     public function options($actionId) {
-        return ['realy_clear'];
+        return ['realyClear'];
     }
 
     public function actionIndex() {
+        echo "Delete thumbnails\n";
         foreach (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'] as $l) {
             $path = FS::buildThumbPath($l);
             if (FS::isFileExists($path)) {
@@ -33,33 +35,38 @@ class ClearController extends Controller {
             }
         }
 
+        echo "Delete web symlink to thumnail path\n";
+        if ($this->realyClear) {
+            FS::unlink(trim(FS::implodeDirs(['web', Yii::$app->params['thumbsPath']]), '/'));
+        }
+
         echo "Delete all folders\n";
-        if ($this->realy_clear) {
+        if ($this->realyClear) {
             Folders::deleteAll();
         }
 
         echo "Delete all folder properties\n";
-        if ($this->realy_clear) {
+        if ($this->realyClear) {
             FolderProperty::deleteAll();
         }
 
         echo "Delete all files\n";
-        if ($this->realy_clear) {
+        if ($this->realyClear) {
             FileManager::deleteAll();
         }
 
         echo "Delete all file info\n";
-        if ($this->realy_clear) {
+        if ($this->realyClear) {
             FileInfo::deleteAll();
         }
 
         echo "Delete all albums\n";
-        if ($this->realy_clear) {
+        if ($this->realyClear) {
             AlbumFiles::deleteAll();
             Albums::deleteAll();
         }
-        if (!$this->realy_clear) {
-            echo "If You realy wish to do this all, then use --realy_clear flag.\n";
+        if (!$this->realyClear) {
+            echo "If You realy wish to do this all, then use --realyClear flag.\n";
         }
     }
 }

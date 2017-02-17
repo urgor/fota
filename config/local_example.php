@@ -33,11 +33,11 @@ return [
 				'quality' => 80,
 			]
 		],
-		'preventScanDirBeginsFrom' => '_',
-		'sourceFolderPath' => '____',
-		'thumbRealPath' => '____/',
-		'thumbsPath' => '____/',
-        'temporaryFilePath' => '/tmp/fotagallery',
+		'preventScanDirBeginsFrom' => '_', // Folder name begins from this symbol will be not scanned.
+		'sourceFolderPath' => '____', // Path to You photo library.
+		'thumbRealPath' => '____/', // Path to store thumbnails. Must be writable and readable.
+		'thumbsPath' => '____/', // Path to thumbnails in the web. This will be created by `init` command as symlink to 'thumbRealPath'.
+        'temporaryFilePath' => '/tmp/fotagallery', // Temporary folder and prefix folder name for creating archive when user gets some download.
 	],
 
 ];

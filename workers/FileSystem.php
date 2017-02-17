@@ -46,7 +46,7 @@ class FileSystem  {
         return mkdir($name, $mode, $recursive);
     }
 
-    public static function symlink($target, $link)
+    public static function symlink(string $target, string $link)
     {
         return symlink($target, $link);
     }

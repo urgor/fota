@@ -32,7 +32,7 @@ class ScanController extends Controller {
         FileManager::resetProcessed();
         $root = FolderManager::getRoot();
         if (is_null($root)) {
-            echo "There is no root directory in database/. You should use `init` command before scan/\n";
+            echo "There is no root directory in database. You should use `init` command before scan/\n";
             return Controller::EXIT_CODE_ERROR;
         }
 

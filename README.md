@@ -3,7 +3,7 @@ About Fota Web Album
 
 Fota Web Album is tool to create, photo web albums (Your K.O.)
 
-It can scan some directory subtree, make photos thumbs and index to create it web representation.
+It can scan some directory subtree and create it web representation by making photo thumbnails and store some info to DB.
 
 Also Fota provides create album from selected images; integrate album to third-party sites; allow download album or folder as single zip archive.
 
@@ -36,10 +36,9 @@ Checkout project
 
 `git clone git@github.com:urgor/fota.git <projectRoot>`
 
-Setup web directory of your webservert host to `<projectRoot>/web`
+Setup web directory of your web server host to `<projectRoot>/web`.
 
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `<projectRoot>/vendor`.
+Install composer and type `composer install` to install all necessary libraries.
 
 CONFIGURATION
 -------------
@@ -48,19 +47,11 @@ Make copy of `<projectRoot>/config/local_example.php` to `<projectRoot>/config/l
 
 ### Database
 
-Create database and structure from file `<projectRoot>/structure.sql`
+Edit the file `<projectRoot>/config/local.php`. Fill all underscores inside it to your own host values.
 
-Edit the file `<projectRoot>/config/local.php` components->db section with real data, for example:
+Run `./yii migrations/up` to create database structure.
 
-```php
-[
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'maFotaUzer',
-    'password' => '1234',
-    'charset' => 'utf8',
-],
-```
+Now You can run `./Yii init` This will create root directory in DB, and folder structure for thumbnails.
 
 ### Other config
 
@@ -72,7 +63,6 @@ Set cookie validation key in `<projectRoot>/config/local.php` file to some rando
 ],
 ```
 
-Fill all underscores in `<projectRoot>/config/local.php` to your private host values.
 
 AUTHORS
 -------
