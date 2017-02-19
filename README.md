@@ -25,8 +25,8 @@ REQUIREMENTS
 
 The minimum requirement
 - PHP 7.0
-mbstring 
-- Yii 2.0.10.
+- mbstring 
+- Yii 2.0.10
 - imagemagick (convert)
 - exiftool
 - md5sum
