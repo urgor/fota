@@ -4,7 +4,8 @@ Example of configuration file
 Nginx
 -----
 
-`server {
+`
+server {
 	listen 80;
 	server_name <sitename>;
 	root <projectRoot>/web;
@@ -37,12 +38,14 @@ Nginx
 		access_log off;
 		log_not_found off;
 	}
-}`
+}
+`
 
 local.php
 ---------
 
-`<?php
+`
+<?php
 
 return [
     'bootstrap' => ['log'],
@@ -90,4 +93,5 @@ return [
         'temporaryDirPrefix' => '/tmp/fotagallery',
 	],
 
-];`
+];
+`

@@ -38,38 +38,30 @@ Checkout project
 
 `git clone git@github.com:urgor/fota.git <projectRoot>`
 
+Change current working directory to `cd <projectRoot>`
+
 Install composer and type `composer install` to install all necessary libraries.
 
 CONFIGURATION
 -------------
 
-** Basic CLI configuration **
-
-Make copy of `<projectRoot>/config/local_example.php` to `<projectRoot>/config/local.php` (it is under .gitignore). Also You can use [CONFIG_EXAMPLE.md](CONFIG_EXAMPLE.md) as example.
+**Basic CLI configuration**
 
 Create database, db user, grant them permissions;
+
+Make copy of `<projectRoot>/config/local_example.php` to `<projectRoot>/config/local.php` (it is under .gitignore). Also You can use [CONFIG_EXAMPLE.md](CONFIG_EXAMPLE.md) as example.
 
 Edit the file `<projectRoot>/config/local.php`. Fill all underscores inside it to your own host values.
 
 Run `./yii migrate/up` to create database structure.
 
-Now You can run `./Yii init` This will create root directory in DB, and folder structure for thumbnails.
+Now You can run `./yii init` This will create root directory in DB, and folder structure for thumbnails.
 
 Set <projectRoot>/web/assets directory writable by web server user.
 
-** Web sercver configuration **
+**Web server configuration**
 
-Use [nginx exmaple config file](CONFIG_EXAMPLE.md) to setup You Nginx web server to `<projectRoot>/web` directory.
-
-** Other config **
-
-Set cookie validation key in `<projectRoot>/config/local.php` file to some random secret string:
-
-```php
-'request' => [
-    'cookieValidationKey' => '<secret random string goes here>',
-],
-```
+Use [nginx example config file](CONFIG_EXAMPLE.md) to setup Your Nginx web server to `<projectRoot>/web` directory.
 
 AUTHORS
 -------
@@ -83,7 +75,7 @@ Cosy or minimalistic web interfaces that i prefere to inherit:
 
 - [workflowy.com](http://workflowy.com)
 - [Jira](https://ru.atlassian.com/software/jira)
-- [tiddlyspot.com/](http://tiddlyspot.com/)
+- [tiddlyspot.com/](http://tiddlyspot.com)
 
 LICENSE
 -------
