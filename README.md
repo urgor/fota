@@ -24,9 +24,11 @@ REQUIREMENTS
 ------------
 
 The minimum requirement
-- PHP 5.4.0.
+- PHP 7.0
+mbstring 
 - Yii 2.0.10.
-- imagemagic
+- imagemagick (convert)
+- exiftool
 - md5sum
 
 INSTALLATION
@@ -36,24 +38,30 @@ Checkout project
 
 `git clone git@github.com:urgor/fota.git <projectRoot>`
 
-Setup web directory of your web server host to `<projectRoot>/web`.
-
 Install composer and type `composer install` to install all necessary libraries.
 
 CONFIGURATION
 -------------
 
-Make copy of `<projectRoot>/config/local_example.php` to `<projectRoot>/config/local.php` (it is under .gitignore)
+** Basic CLI configuration **
 
-### Database
+Make copy of `<projectRoot>/config/local_example.php` to `<projectRoot>/config/local.php` (it is under .gitignore). Also You can use [CONFIG_EXAMPLE.md](CONFIG_EXAMPLE.md) as example.
+
+Create database, db user, grant them permissions;
 
 Edit the file `<projectRoot>/config/local.php`. Fill all underscores inside it to your own host values.
 
-Run `./yii migrations/up` to create database structure.
+Run `./yii migrate/up` to create database structure.
 
 Now You can run `./Yii init` This will create root directory in DB, and folder structure for thumbnails.
 
-### Other config
+Set <projectRoot>/web/assets directory writable by web server user.
+
+** Web sercver configuration **
+
+Use [nginx exmaple config file](CONFIG_EXAMPLE.md) to setup You Nginx web server to `<projectRoot>/web` directory.
+
+** Other config **
 
 Set cookie validation key in `<projectRoot>/config/local.php` file to some random secret string:
 
@@ -62,7 +70,6 @@ Set cookie validation key in `<projectRoot>/config/local.php` file to some rando
     'cookieValidationKey' => '<secret random string goes here>',
 ],
 ```
-
 
 AUTHORS
 -------
