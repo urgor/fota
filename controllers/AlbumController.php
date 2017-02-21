@@ -42,7 +42,8 @@ class AlbumController extends Controller {
      * Get list of albums
      */
 	public function actionGetList() {
-		foreach (Albums::getAll() as $album) {
+		$this->_data['folders'] = [];
+        foreach (Albums::getAll() as $album) {
 			$this->_data['folders'][] = [
 				'id' => $album->album_id,
 				'name' => $album->name,

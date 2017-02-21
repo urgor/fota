@@ -19,7 +19,7 @@ class FolderController extends Controller {
 
         if (Yii::$app->user->isGuest) {
             if (empty($accessHash)) {
-                throw new \Exception("Need login", 1);
+                throw new \app\exceptions\Fota("Need login");
             } elseif ($parent->isRoot()) {
                 $folder = FolderManager::getFolderByAccesHash($accessHash);
                 $data['folders'] = [self::mapFields($folder)];
