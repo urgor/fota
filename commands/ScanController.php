@@ -28,25 +28,39 @@ class ScanController extends Controller {
         return ['updateInfo', 'rethumb'];
     }
 
-    public function actionIndex() {
-        FileManager::resetProcessed();
-        $root = FolderManager::getRoot();
-        if (is_null($root)) {
-            echo "There is no root directory in database. You should use `init` command before scan/\n";
-            return Controller::EXIT_CODE_ERROR;
+    /**
+     * Scan directories, build index and thumbs
+     *
+     * @param string $path Path to scan relatively $config['sourceFolderPath']
+     * @return int
+     */
+    public function actionIndex($path = DIRECTORY_SEPARATOR) {
+        try {
+            if (DIRECTORY_SEPARATOR == $path) {
+                $startDir = FolderManager::getRoot();
+                if (is_null($startDir)) {
+                    throw new \Exception('There is no root directory in database. You should use `init` command before scan');
+                    return Controller::EXIT_CODE_ERROR;
+                }
+            } else {
+                $startDir = FolderManager::findByPath($path);
+            }
+            FileManager::resetProcessed($startDir);
+
+            $params = new RuntimeParameters([
+                'updateInfo' => $this->updateInfo,
+                'rethumb' => $this->rethumb,
+            ]);
+
+            $scaner = new Scaner($params);
+
+            $scaner->scanMain($path, $startDir);
+            $this->deleteEmptyFolders();
+            $this->deleteUnprocessedFiles();
+            return Controller::EXIT_CODE_NORMAL;
+        } catch (\Exception $e) {
+            echo $e->getMessage() . PHP_EOL;
         }
-
-        $params = new RuntimeParameters([
-            'updateInfo' => $this->updateInfo,
-            'rethumb' => $this->rethumb,
-        ]);
-
-        $scaner = new Scaner($params);
-
-        $scaner->scanMain('', $root);
-        $this->deleteEmptyFolders();
-        $this->deleteUnprocessedFiles();
-        return Controller::EXIT_CODE_NORMAL;
     }
 
     private function deleteUnprocessedFiles() {

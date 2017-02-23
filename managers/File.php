@@ -8,9 +8,20 @@ use app\models\FileInfo;
 class File
 {
 
-    public static function resetProcessed($folderId = 0)
+    /**
+     * Set 'processed' flag to 0 for all files in $folder and all descendants
+     * 
+     * @param app\models\Folders $folder
+     */
+    public static function resetProcessed($folder)
     {
-        Files::updateAll(['processed' => 0], []);
+        $childrens = $folder->children()->all();
+        if (empty($childrens)) {
+            Files::updateAll(['processed' => 0], ['folder_id' => $folder->folder_id]);
+        } else {
+            $dirs = array_map(function($el){return $el->folder_id;}, $childrens);
+            Files::updateAll(['processed' => 0], ['in', 'folder_id', $dirs]);
+        }
     }
 
     public static function getUnprocessed($folderId = 0)

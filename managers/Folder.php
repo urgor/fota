@@ -4,6 +4,7 @@ namespace app\managers;
 
 use app\models\FolderProperty;
 use app\models\Folders;
+use app\workers\FileSystem as FS;
 
 class Folder
 {
@@ -64,6 +65,26 @@ class Folder
             group by f.folder_id
             having cnt = 0
         ')->all();
+    }
+
+    /**
+     * Get Folder entity from DB by path name
+     *
+     * @param string $path
+     * @return app\models\Folders
+     * @throws \Exception
+     */
+    public static function findByPath($path)
+    {
+        $dir = self::getRoot();
+        foreach (FS::explodePath($path) as $sub) {
+            $dir = $dir->children(1)->andWhere(['name' => $sub])->one();
+            if (is_null($dir)) {
+                throw new \Exception("Path '$path' not fond in point '.../$sub'");
+            }
+        }
+
+        return $dir;
     }
 
 }

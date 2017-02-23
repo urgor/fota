@@ -77,7 +77,12 @@ class FileSystem  {
     }
 
     public static function implodeDirs($dirs) {
-        return implode(DIRECTORY_SEPARATOR, $dirs);
+        return trim(implode(DIRECTORY_SEPARATOR, $dirs), DIRECTORY_SEPARATOR);
+    }
+
+    public static function explodePath($path)
+    {
+        return explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
     }
 
     public static function buildThumbPath($name) {

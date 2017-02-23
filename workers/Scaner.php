@@ -76,10 +76,10 @@ class Scaner
 
     private function processFile(string $dir, string $entry, \app\models\Folders $parentFolder)
     {
-        $path = FS::buildPath([$dir, $entry]);
-        $mdPath = md5($dir . DIRECTORY_SEPARATOR . $entry);
+        $fsFullPath = FS::buildPath([$dir, $entry]);
+        $mdPath = md5(FS::implodeDirs([$dir, $entry]));
 
-        $this->os->execute('md5sum --binary %s', [$path]);
+        $this->os->execute('md5sum --binary %s', [$fsFullPath]);
         if (0 != $this->os->getReturnVar()) {
             throw new \Exception('Error calculating md5 sum', 1);
         }
@@ -97,19 +97,19 @@ class Scaner
         switch (((is_null($findPath) ? 0 : 1) << 1 ) | (is_null($findContent) ? 0 : 1)) {
             case 0b00:
                 // simply new file
-                $this->create($parentFolder, $entry, $path, $mdPath, $mdContent);
+                $this->create($parentFolder, $entry, $fsFullPath, $mdPath, $mdContent);
                 break;
             case 0b01:
                 // -path +content => content set cur path
-                $this->updatePath($findContent, $parentFolder, $entry, $path, $mdPath);
+                $this->updatePath($findContent, $parentFolder, $entry, $fsFullPath, $mdPath);
                 break;
             case 0b10;
                 // +path -content => path set current content
-                $this->updateContent($findPath, $path, $mdContent, $mdPath, $entry);
+                $this->updateContent($findPath, $fsFullPath, $mdContent, $mdPath, $entry);
                 break;
             case 0b11;
                 // +path +content => processed
-                $this->updateProcessed($findContent, $path, $mdPath);
+                $this->updateProcessed($findContent, $fsFullPath, $mdPath);
                 break;
         }
         return 1;
@@ -150,6 +150,7 @@ class Scaner
 
     protected function updatePath($findContent, $parentFolder, $entry, $path, $mdPath)
     {
+        echo "Old md path $findContent->md_path new $mdPath". PHP_EOL;
         $file = FS::buildThumbPathFile($findContent->md_path);
         if (FS::isFileExists($file) && FS::isFileWritable($file)) {
             FS::rename(FS::buildThumbPathFile($findContent->md_path), FS::buildThumbPathFile($mdPath));
