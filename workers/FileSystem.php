@@ -62,7 +62,7 @@ class FileSystem  {
     }
 
     public static function readDir($dir) {
-        $d = dir(Yii::$app->params['sourceFolderPath'] . $dir);
+        $d = dir($dir);
         while ($sub = $d->read()) {
             if ('.' == $sub[0]) {
                 continue;
@@ -73,7 +73,11 @@ class FileSystem  {
     }
 
     public static function buildPath($dirs) {
-        return Yii::$app->params['sourceFolderPath'] . self::implodeDirs($dirs);
+        return preg_replace(
+            '/' . preg_quote(DIRECTORY_SEPARATOR, '/') . '{2,}/',
+            DIRECTORY_SEPARATOR,
+            Yii::$app->params['sourceFolderPath'] . DIRECTORY_SEPARATOR . self::implodeDirs($dirs)
+        );
     }
 
     public static function implodeDirs($dirs) {
@@ -86,7 +90,7 @@ class FileSystem  {
     }
 
     public static function buildThumbPath($name) {
-        return Yii::$app->params['thumbRealPath'] . $name[0];
+        return Yii::$app->params['thumbRealPath'] . DIRECTORY_SEPARATOR . $name[0];
     }
 
     public static function buildThumbPathFile($name) {

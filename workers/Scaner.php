@@ -35,7 +35,7 @@ class Scaner
      */
     public function scanMain(string $dir, \app\models\Folders $parentFolder) {
         $entitiesHere = 0;
-        foreach(FS::readDir($dir) as $entry) {
+        foreach(FS::readDir(FS::buildPath([$dir])) as $entry) {
             if (Yii::$app->params['preventScanDirBeginsFrom'] == $entry[0]) {
                 continue;
             }

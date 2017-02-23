@@ -34,7 +34,7 @@ return [
 		],
 		'preventScanDirBeginsFrom' => '_', // Folder name begins from this symbol will be not scanned.
 		'sourceFolderPath' => '____', // File system path to Your photo library.
-		'thumbRealPath' => '____/', // File system path to store thumbnails. Must be writable and readable.
+		'thumbRealPath' => '____', // File system path to store thumbnails. Must be writable and readable.
 		'thumbsPath' => '____/', // Path to thumbnails in the web. This will be created by `./yii init` command as symlink to 'thumbRealPath'.
         'temporaryFilePath' => '/tmp/fotagallery', // Temporary folder and prefix folder name for creating archive when user gets some download.
 	],
