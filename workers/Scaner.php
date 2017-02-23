@@ -150,7 +150,6 @@ class Scaner
 
     protected function updatePath($findContent, $parentFolder, $entry, $path, $mdPath)
     {
-        echo "Old md path $findContent->md_path new $mdPath". PHP_EOL;
         $file = FS::buildThumbPathFile($findContent->md_path);
         if (FS::isFileExists($file) && FS::isFileWritable($file)) {
             FS::rename(FS::buildThumbPathFile($findContent->md_path), FS::buildThumbPathFile($mdPath));

@@ -4,13 +4,14 @@ namespace app\managers;
 
 use app\models\Files;
 use app\models\FileInfo;
+use app\models\AlbumFiles;
 
 class File
 {
 
     /**
      * Set 'processed' flag to 0 for all files in $folder and all descendants
-     * 
+     *
      * @param app\models\Folders $folder
      */
     public static function resetProcessed($folder)
@@ -109,6 +110,36 @@ class File
     {
         $file->processed = $processed;
         return $file->save();
+    }
+
+    public static function getByAlbum($albumId)
+    {
+        $ret = [];
+        foreach (AlbumFiles::find()->where(['album_id' => $albumId])->all() as $albumFile) {
+            $ret[] = $albumFile->getFile()->asArray()->one();
+        }
+
+        return $ret;
+    }
+
+
+    /**
+     * Add file to album
+     * @param int $albumId
+     * @param int $fileId
+     * @return \app\models\AlbumFiles
+     * @throws \Exception
+     */
+    public static function addFileToAlbum(int $albumId, int $fileId)
+    {
+        $albumFiles = new AlbumFiles;
+        $albumFiles->album_id = $albumId;
+        $albumFiles->file_id = $fileId;
+        if (!$albumFiles->save()) {
+            throw new \Exception("Error adding images", 1);
+        }
+
+        return $albumFiles;
     }
 
 }

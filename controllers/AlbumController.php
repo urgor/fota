@@ -64,9 +64,7 @@ class AlbumController extends Controller {
             'name' => $album->name,
         ];
 
-        FileManager::getByAlbum($id);
-
-        foreach (AlbumFiles::getByAlbum($id) as $file) {
+        foreach (FileManager::getByAlbum($id) as $file) {
             $this->_data['files'][] = [
                 'id' => $file['file_id'],
                 'thumb' =>$file['md_path'],
