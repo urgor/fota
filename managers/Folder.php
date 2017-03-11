@@ -40,7 +40,7 @@ class Folder
         if (empty($prop)) {
             throw new \Exception('Folder not found');
         }
-        $folder = Folders::getById($prop->folder_id);
+        $folder = self::getById($prop->folder_id);
 
         return $folder;
     }
