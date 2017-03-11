@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\manager\Folder as FolderManager;
+use app\managers\Folder as FolderManager;
 use app\models\Albums;
 use app\models\AlbumFiles;
 use app\workers\FileSystem as FS;
