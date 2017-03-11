@@ -37,7 +37,7 @@ class File
 
     public static function getByFolder($folderId)
     {
-        $files = static::find()->where(['folder_id' => $folderId])->orderBy('original_name')->all();
+        $files = Files::find()->where(['folder_id' => $folderId])->orderBy('original_name')->all();
         if (empty($files)) {
             throw new \Exception('No such folder');
         }

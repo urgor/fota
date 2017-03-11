@@ -81,7 +81,7 @@ class FileSystem  {
     }
 
     public static function implodeDirs($dirs) {
-        return trim(implode(DIRECTORY_SEPARATOR, $dirs), DIRECTORY_SEPARATOR);
+        return rtrim(implode(DIRECTORY_SEPARATOR, $dirs), DIRECTORY_SEPARATOR);
     }
 
     public static function explodePath($path)
@@ -126,7 +126,7 @@ class FileSystem  {
     public static function createTemporaryDir($name)
     {
 		$contentDir = Yii::$app->params['temporaryDirPrefix'] . mt_rand(1000, 9999999);
-		self::mkdir(self::implodeDirs([$contentDir, $name]), 0777, true);
+        self::mkdir(self::implodeDirs([$contentDir, $name]), 0777, true);
 
         return $contentDir;
     }

@@ -4,7 +4,7 @@ namespace app\workers;
 
 use app\managers\File as FileManager;
 use app\managers\Folder as FolderManager;
-use app\models\FileSystem as FS;
+use app\workers\FileSystem as FS;
 
 class PathAssembler
 {

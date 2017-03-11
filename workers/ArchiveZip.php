@@ -3,7 +3,7 @@
 namespace app\workers;
 
 use Yii;
-use app\models\FileSystem as FS;
+use app\workers\FileSystem as FS;
 use app\workers\PathAssembler;
 
 class ArchiveZip implements ArchiveInterface
