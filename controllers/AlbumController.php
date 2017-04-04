@@ -105,7 +105,7 @@ class AlbumController extends Controller {
         $album = Albums::getById((int) Yii::$app->request->post('albumId'));
 
         foreach (Yii::$app->request->post('items') as $itemId) {
-            AlbumFiles::addFileToAlbum($album->album_id, (int) $itemId);
+            FileManager::addFileToAlbum($album->album_id, (int) $itemId);
         }
 
         return $this->_data;

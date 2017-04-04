@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 
-class ALbumFiles extends ActiveRecord
+class AlbumFiles extends ActiveRecord
 {
 
     static $tableName = 'album_files';
