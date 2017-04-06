@@ -22,10 +22,12 @@ class FileInfo extends ActiveRecord
         list ($data, $info) = Exif::getInfo($path, $thumbnail);
 
         foreach ([
-                // 'ExifImageWidth' => 'width',
-                // 'ExifImageHeight' => 'height',
-                // 'ImageWidth' => 'width', // upper -- higher priority
-                // 'ImageHeight' => 'height',
+                'width' => 'width', // upper -- higher priority
+                'height' => 'height',
+                'ExifImageWidth' => 'width',
+                'ExifImageHeight' => 'height',
+                'ImageWidth' => 'width',
+                'ImageHeight' => 'height',
                 'Description' => 'exif_description',
                 'Title' => 'exif_title',
             ] as $exif => $myKey
@@ -48,6 +50,7 @@ class FileInfo extends ActiveRecord
         foreach ($data as $key => &$val) {
             $val = '(' . $fileId . ',' . \Yii::$app->db->quoteValue($key) . ',' . \Yii::$app->db->quoteValue($val) . ')';
         }
+
         $connection = Yii::$app->getDb();
         $command = $connection->createCommand('
 			INSERT INTO file_info (file_id, `key`, `value`) VALUES ' . implode(',', $data) . '
