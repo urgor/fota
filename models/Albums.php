@@ -5,19 +5,20 @@ use Yii;
 use yii\db\ActiveRecord;
 use app\models\AlbumFiles;
 
-class Albums extends ActiveRecord {
+class Albums extends ActiveRecord
+{
 
-	static $tableName = 'albums';
+    static $tableName = 'albums';
 
-	static $primaryKey = 'album_id';
+    static $primaryKey = 'album_id';
 
-	public function defaultScope() 
+    public function defaultScope()
     {
-		return array(
-			'order' => 'name ASC',
-		);
-	}
-    
+        return array(
+            'order' => 'name ASC',
+        );
+    }
+
     public static function create($name)
     {
         $album = new Albums;
@@ -25,15 +26,15 @@ class Albums extends ActiveRecord {
         if (!$album->save()) {
             throw new \Exception("Error creating album", 1);
         }
-        
+
         return $album;
     }
-    
+
     public static function getAll()
     {
         return self::find()->all();
     }
-    
+
     public static function getById(int $albumId)
     {
         $album = self::findOne($albumId);
@@ -42,7 +43,7 @@ class Albums extends ActiveRecord {
         }
         return $album;
     }
-    
+
     public static function deleteById($albumId)
     {
         self::deleteAll(['album_id' => $albumId]);

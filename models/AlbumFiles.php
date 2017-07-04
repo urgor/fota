@@ -42,4 +42,9 @@ class AlbumFiles extends ActiveRecord
     {
         self::deleteAll(['and', ['album_id' => $albumId], ['file_id' => $items]]);
     }
+
+    public static function getByAlbum($id)
+    {
+        return self::find()->with('file')->where(['album_id' => $id])->all();
+    }
 }
