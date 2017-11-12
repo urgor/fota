@@ -56,7 +56,7 @@ class FolderController extends Controller {
 			$prop = FolderPropertyManager::createAccessHash($folderId, md5(microtime() . '_' . $folderId));
 		}
 
-		return ['data' => $prop->access_code];
+		return ['data' => $prop->access_hash];
 	}
 
 }

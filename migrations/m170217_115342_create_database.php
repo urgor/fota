@@ -54,12 +54,12 @@ class m170217_115342_create_database extends Migration {
 
         $this->createTable('folder_property', [
             'folder_id' => $this->integer() . ' UNSIGNED NOT NULL',
-            'access_code' => $this->char(32) . ' DEFAULT NULL',
+            'access_hash' => $this->char(32) . ' DEFAULT NULL',
                 ], 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
         );
 
         $this->createIndex('folder_id', 'folder_property', 'folder_id', 1);
-        $this->createIndex('access_code', 'folder_property', 'access_code', 1);
+        $this->createIndex('access_hash', 'folder_property', 'access_hash', 1);
     }
 
     public function down() {
