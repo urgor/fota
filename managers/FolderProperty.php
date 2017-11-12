@@ -17,7 +17,7 @@ class FolderProperty
     {
         $prop = new Property();
         $prop->folder_id = $folderId;
-        $prop->access_code = $accessHash;
+        $prop->access_hash = $accessHash;
         $prop->save();
 
         return $prop;
